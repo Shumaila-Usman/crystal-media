@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
+import { WhatsAppCTA } from "@/components/shared/WhatsAppCTA";
 import type { SiteSettingsData } from "@/types";
 
 function SparkleIcon() {
@@ -59,7 +60,7 @@ interface HeroSectionProps {
   settings: SiteSettingsData;
 }
 
-export function HeroSection({ settings: _settings }: HeroSectionProps) {
+export function HeroSection({ settings }: HeroSectionProps) {
   return (
     <section className="relative min-h-0 sm:min-h-screen flex items-center overflow-hidden">
       {/* Background image */}
@@ -130,6 +131,16 @@ export function HeroSection({ settings: _settings }: HeroSectionProps) {
               >
                 Explore Talent
               </Link>
+
+              {settings.whatsappNumber && (
+                <WhatsAppCTA
+                  number={settings.whatsappNumber}
+                  message="Hi Crystal Media, I'd like to discuss a campaign."
+                  label="Chat on WhatsApp"
+                  variant="outline"
+                  className="w-full sm:w-auto"
+                />
+              )}
             </div>
 
             <div className="flex flex-wrap items-center gap-x-5 gap-y-2">

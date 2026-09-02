@@ -637,12 +637,14 @@ export const seedSettings: SiteSettingsData = {
     "Crystal Media connects premium brands with culturally relevant creators through strategy-led public relations, talent management, and high-impact influencer campaigns across Pakistan.",
   contactEmail: "",
   receiverEmail: "",
-  whatsappNumber: process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "",
-  phone: "",
+  whatsappNumber: process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "923162981050",
+  phone: "+92 316 2981050",
   instagramUrl:
     process.env.NEXT_PUBLIC_INSTAGRAM_URL ||
     "https://www.instagram.com/crystal_media.pk/",
-  facebookUrl: process.env.NEXT_PUBLIC_FACEBOOK_URL || "",
+  facebookUrl:
+    process.env.NEXT_PUBLIC_FACEBOOK_URL ||
+    "https://www.facebook.com/share/1PUeHYiJMA/?mibextid=wwXIfr",
   linkedinUrl: process.env.NEXT_PUBLIC_LINKEDIN_URL || "",
   locationLahore: "Lahore, Pakistan",
   locationKarachi: "Karachi, Pakistan",

@@ -296,13 +296,31 @@ export async function getFAQs(): Promise<FAQData[]> {
 
 export async function getSiteSettings(): Promise<SiteSettingsData> {
   const db = await connectDB();
+  let settings: SiteSettingsData = seedSettings;
+
   if (db) {
     try {
       const doc = await SiteSettings.findOne().lean();
-      if (doc) return toPlain(doc) as SiteSettingsData;
+      if (doc) settings = toPlain(doc) as SiteSettingsData;
     } catch (e) {
       console.error("Error fetching settings:", e);
     }
   }
-  return seedSettings;
+
+  return {
+    ...settings,
+    phone: settings.phone || seedSettings.phone,
+    whatsappNumber:
+      settings.whatsappNumber ||
+      process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ||
+      seedSettings.whatsappNumber,
+    facebookUrl:
+      settings.facebookUrl ||
+      process.env.NEXT_PUBLIC_FACEBOOK_URL ||
+      seedSettings.facebookUrl,
+    instagramUrl:
+      settings.instagramUrl ||
+      process.env.NEXT_PUBLIC_INSTAGRAM_URL ||
+      seedSettings.instagramUrl,
+  };
 }

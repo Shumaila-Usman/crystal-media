@@ -5,9 +5,9 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { BrandLogo } from "@/components/shared/BrandLogo";
-import { cn } from "@/lib/utils";
+import { cn, getWhatsAppLink } from "@/lib/utils";
 import { Menu, X } from "lucide-react";
-import { InstagramIcon } from "@/components/shared/SocialIcons";
+import { InstagramIcon, WhatsAppIcon } from "@/components/shared/SocialIcons";
 
 const navLinks = [
   { href: "/", label: "Home" },
@@ -40,10 +40,15 @@ function GradientBorderButton({
   );
 }
 
-export function Navbar() {
+export function Navbar({ whatsappNumber }: { whatsappNumber?: string }) {
   const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const whatsapp =
+    whatsappNumber || process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "";
+  const whatsappHref = whatsapp
+    ? getWhatsAppLink(whatsapp, "Hi Crystal Media, I'd like to get in touch.")
+    : "";
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
@@ -85,60 +90,82 @@ export function Navbar() {
         className={cn(
           "fixed top-0 left-0 right-0 z-50 transition-all duration-500",
           scrolled
-            ? "bg-ink-black/80 backdrop-blur-xl border-b border-white/5 py-3"
-            : "bg-ink-black/30 backdrop-blur-md py-4"
+            ? "bg-ink-black/85 backdrop-blur-xl border-b border-white/5 py-3 md:py-3.5"
+            : "bg-ink-black/35 backdrop-blur-md py-3.5 md:py-4"
         )}
       >
-        <div className="container-xl flex items-center justify-between gap-6">
-          <BrandLogo size="md" variant="light" />
+        <div className="container-xl">
+          <div className="flex items-center justify-between gap-4 md:grid md:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] md:items-center md:gap-6 lg:gap-8">
+            <div className="min-w-0 shrink-0 justify-self-start">
+              <BrandLogo size="md" variant="light" />
+            </div>
 
-          <nav
-            className="hidden lg:flex items-center gap-7 xl:gap-9"
-            aria-label="Main navigation"
-          >
-            {navLinks.map((link) => (
-              <Link
-                key={`${link.href}-${link.label}`}
-                href={link.href}
-                className={cn(
-                  "relative text-sm font-medium transition-colors duration-300",
-                  isActive(link.href, link.label)
-                    ? "text-pearl-white"
-                    : "text-pearl-white/65 hover:text-pearl-white"
-                )}
+            <nav
+              className="hidden md:flex items-center justify-center gap-5 lg:gap-7 xl:gap-8"
+              aria-label="Main navigation"
+            >
+              {navLinks.map((link) => (
+                <Link
+                  key={`${link.href}-${link.label}`}
+                  href={link.href}
+                  className={cn(
+                    "relative whitespace-nowrap text-[13px] lg:text-sm font-medium tracking-wide transition-colors duration-300",
+                    isActive(link.href, link.label)
+                      ? "text-pearl-white"
+                      : "text-pearl-white/65 hover:text-pearl-white"
+                  )}
+                >
+                  {link.label}
+                  {isActive(link.href, link.label) && (
+                    <motion.span
+                      layoutId="nav-indicator"
+                      className="absolute -bottom-1.5 left-0 right-0 h-px bg-gradient-to-r from-electric-purple to-crystal-magenta"
+                    />
+                  )}
+                </Link>
+              ))}
+            </nav>
+
+            <div className="flex items-center justify-end gap-2 sm:gap-3 justify-self-end shrink-0">
+              {whatsappHref && (
+                <a
+                  href={whatsappHref}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Chat on WhatsApp"
+                  className="hidden md:inline-flex items-center justify-center gap-2 rounded-full border border-[#25D366]/40 bg-[#25D366]/10 px-3.5 py-2 text-[13px] font-medium text-pearl-white transition-all hover:bg-[#25D366]/20 lg:px-4 lg:py-2.5 lg:text-sm"
+                >
+                  <WhatsAppIcon size={16} className="text-[#25D366]" />
+                  WhatsApp
+                </a>
+              )}
+              <div className="hidden md:block">
+                <GradientBorderButton
+                  href="/contact"
+                  className="px-4 py-2 text-[13px] lg:px-5 lg:py-2.5 lg:text-sm"
+                >
+                  Start a Campaign
+                </GradientBorderButton>
+              </div>
+
+              <button
+                type="button"
+                className="md:hidden relative w-11 h-11 flex items-center justify-center text-pearl-white touch-target"
+                onClick={() => setMobileOpen(!mobileOpen)}
+                aria-label={mobileOpen ? "Close menu" : "Open menu"}
+                aria-expanded={mobileOpen}
               >
-                {link.label}
-                {isActive(link.href, link.label) && (
-                  <motion.span
-                    layoutId="nav-indicator"
-                    className="absolute -bottom-1.5 left-0 right-0 h-px bg-gradient-to-r from-electric-purple to-crystal-magenta"
-                  />
-                )}
-              </Link>
-            ))}
-          </nav>
-
-          <div className="hidden lg:flex items-center">
-            <GradientBorderButton href="/contact">
-              Start a Campaign
-            </GradientBorderButton>
+                {mobileOpen ? <X size={22} /> : <Menu size={22} />}
+              </button>
+            </div>
           </div>
-
-          <button
-            className="lg:hidden relative w-11 h-11 flex items-center justify-center text-pearl-white touch-target"
-            onClick={() => setMobileOpen(!mobileOpen)}
-            aria-label={mobileOpen ? "Close menu" : "Open menu"}
-            aria-expanded={mobileOpen}
-          >
-            {mobileOpen ? <X size={22} /> : <Menu size={22} />}
-          </button>
         </div>
       </header>
 
       <AnimatePresence>
         {mobileOpen && (
           <motion.div
-            className="fixed inset-0 z-40 lg:hidden"
+            className="fixed inset-0 z-40 md:hidden"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -182,6 +209,17 @@ export function Navbar() {
                 <GradientBorderButton href="/contact" className="w-full justify-center">
                   Start a Campaign
                 </GradientBorderButton>
+                {whatsappHref && (
+                  <a
+                    href={whatsappHref}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex w-full items-center justify-center gap-2 rounded-full bg-[#25D366] px-5 py-3.5 text-sm font-semibold text-white transition-all hover:bg-[#20bd5a] min-h-[48px]"
+                  >
+                    <WhatsAppIcon size={18} />
+                    Chat on WhatsApp
+                  </a>
+                )}
                 <a
                   href={
                     process.env.NEXT_PUBLIC_INSTAGRAM_URL ||

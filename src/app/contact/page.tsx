@@ -5,8 +5,8 @@ import { Reveal } from "@/components/motion/Reveal";
 import { ContactPageContent } from "@/components/forms/ContactPageContent";
 import { FAQSection } from "@/components/sections/FAQSection";
 import { getWhatsAppLink } from "@/lib/utils";
-import { Mail, Phone, MapPin, Clock, MessageCircle } from "lucide-react";
-import { InstagramIcon } from "@/components/shared/SocialIcons";
+import { Mail, Phone, MapPin, Clock } from "lucide-react";
+import { InstagramIcon, FacebookIcon, WhatsAppIcon } from "@/components/shared/SocialIcons";
 
 export const metadata = buildMetadata({
   title: "Contact | Crystal Media",
@@ -77,6 +77,18 @@ export default async function ContactPage({ searchParams }: ContactPageProps) {
                 <div className="glass-card rounded-[24px] p-6 space-y-5">
                   <h2 className="font-display text-lg font-bold">Contact details</h2>
 
+                  {whatsapp && (
+                    <a
+                      href={getWhatsAppLink(whatsapp, "Hi Crystal Media, I'd like to get in touch.")}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex w-full items-center justify-center gap-2 rounded-full bg-[#25D366] px-5 py-3.5 text-sm font-semibold text-white transition-all hover:bg-[#20bd5a] min-h-[48px]"
+                    >
+                      <WhatsAppIcon size={18} />
+                      Chat on WhatsApp
+                    </a>
+                  )}
+
                   {settings.contactEmail && (
                     <a
                       href={`mailto:${settings.contactEmail}`}
@@ -89,23 +101,11 @@ export default async function ContactPage({ searchParams }: ContactPageProps) {
 
                   {settings.phone && (
                     <a
-                      href={`tel:${settings.phone}`}
+                      href={`tel:${settings.phone.replace(/\s/g, "")}`}
                       className="flex items-center gap-3 text-sm text-muted-text hover:text-pearl-white transition-colors"
                     >
                       <Phone size={16} className="text-electric-purple shrink-0" />
                       {settings.phone}
-                    </a>
-                  )}
-
-                  {whatsapp && (
-                    <a
-                      href={getWhatsAppLink(whatsapp, "Hi Crystal Media, I'd like to get in touch.")}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center gap-3 text-sm text-muted-text hover:text-pearl-white transition-colors"
-                    >
-                      <MessageCircle size={16} className="text-electric-purple shrink-0" />
-                      WhatsApp
                     </a>
                   )}
 
@@ -118,6 +118,18 @@ export default async function ContactPage({ searchParams }: ContactPageProps) {
                     >
                       <InstagramIcon size={16} className="text-electric-purple shrink-0" />
                       @crystal_media.pk
+                    </a>
+                  )}
+
+                  {settings.facebookUrl && (
+                    <a
+                      href={settings.facebookUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-3 text-sm text-muted-text hover:text-pearl-white transition-colors"
+                    >
+                      <FacebookIcon size={16} className="text-electric-purple shrink-0" />
+                      Crystal Media Agency
                     </a>
                   )}
 
