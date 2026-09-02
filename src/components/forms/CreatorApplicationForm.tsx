@@ -122,7 +122,7 @@ export function CreatorApplicationForm({ className }: CreatorApplicationFormProp
           <label className={labelClass}>Platforms *</label>
           <input
             className={inputClass}
-            placeholder="Instagram, TikTok, YouTube..."
+            placeholder="Instagram, YouTube..."
             {...register("platforms")}
           />
           {errors.platforms && <p className={errorClass}>{errors.platforms.message}</p>}
@@ -131,7 +131,7 @@ export function CreatorApplicationForm({ className }: CreatorApplicationFormProp
           <label className={labelClass}>Follower Counts *</label>
           <input
             className={inputClass}
-            placeholder="e.g. IG: 150K, TikTok: 80K"
+            placeholder="e.g. IG: 150K, YouTube: 80K"
             {...register("followers")}
           />
           {errors.followers && <p className={errorClass}>{errors.followers.message}</p>}

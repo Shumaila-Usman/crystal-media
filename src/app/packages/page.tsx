@@ -90,7 +90,7 @@ export default async function PackagesPage() {
                     <Link href="/contact" className="block">
                       <Button
                         className="w-full"
-                        variant={pkg.featured ? "primary" : "outline"}
+                        variant={pkg.featured ? "primary" : "lightOutline"}
                       >
                         Get Started
                       </Button>

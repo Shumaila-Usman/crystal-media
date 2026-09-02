@@ -18,6 +18,7 @@ const TalentSchema = new Schema(
     specialties: [{ type: String }],
     image: { type: String, default: "" },
     imagePublicId: { type: String },
+    imageObjectPosition: { type: String },
     gallery: [{ type: String }],
     platforms: {
       instagram: String,

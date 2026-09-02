@@ -21,6 +21,7 @@ export interface TalentData {
   specialties: string[];
   image: string;
   imagePublicId?: string;
+  imageObjectPosition?: string;
   gallery: string[];
   platforms: {
     instagram?: string;

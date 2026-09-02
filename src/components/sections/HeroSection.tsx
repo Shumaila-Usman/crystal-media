@@ -28,7 +28,7 @@ const models = [
     src: "/hero/model-left-v2.png",
     alt: "Crystal Media creator — fashion",
     className:
-      "hidden sm:block left-0 sm:left-1 lg:-left-2 z-10 w-[44%] sm:w-[42%] lg:w-[40%] -rotate-6 top-14 sm:top-16 lg:top-20 xl:top-24",
+      "left-0 sm:left-1 lg:-left-2 z-10 w-[32%] sm:w-[42%] lg:w-[40%] -rotate-6 top-14 sm:top-16 lg:top-20 xl:top-24",
     imageClassName: "object-cover object-[center_15%]",
     imageScale: 1.38,
     imagePosition: "50% 12%",
@@ -38,7 +38,7 @@ const models = [
     src: "/hero/model-center.png",
     alt: "Crystal Media creator — luxury lifestyle",
     className:
-      "left-1/2 -translate-x-1/2 z-30 w-[70%] sm:w-[48%] lg:w-[46%] top-0 sm:top-1 lg:top-2 xl:top-4",
+      "left-1/2 -translate-x-1/2 z-30 w-[44%] sm:w-[48%] lg:w-[46%] top-0 sm:top-1 lg:top-2 xl:top-4",
     imageClassName: "object-cover object-top",
     imageScale: 1,
     imagePosition: "50% 0%",
@@ -48,7 +48,7 @@ const models = [
     src: "/hero/model-right.png",
     alt: "Crystal Media creator — premium fashion",
     className:
-      "hidden sm:block right-0 sm:right-1 lg:-right-2 z-20 w-[44%] sm:w-[42%] lg:w-[40%] rotate-6 top-10 sm:top-12 lg:top-16 xl:top-20",
+      "right-0 sm:right-1 lg:-right-2 z-20 w-[32%] sm:w-[42%] lg:w-[40%] rotate-6 top-10 sm:top-12 lg:top-16 xl:top-20",
     imageClassName: "object-cover object-top",
     imageScale: 1,
     imagePosition: "50% 0%",
@@ -165,7 +165,7 @@ export function HeroSection({ settings }: HeroSectionProps) {
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 1, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
-            className="relative h-[300px] sm:h-[520px] lg:h-[580px] xl:h-[640px] w-full max-w-sm sm:max-w-none mx-auto lg:-mt-6 xl:-mt-10"
+            className="relative h-[340px] sm:h-[520px] lg:h-[580px] xl:h-[640px] w-full max-w-md sm:max-w-none mx-auto lg:-mt-6 xl:-mt-10"
           >
             {/* Glow behind center card */}
             <div className="absolute top-[35%] left-1/2 -translate-x-1/2 -translate-y-1/2 w-[65%] h-[75%] rounded-full bg-amber-glow/20 blur-[90px] pointer-events-none" />
@@ -184,7 +184,7 @@ export function HeroSection({ settings }: HeroSectionProps) {
                     ease: [0.22, 1, 0.36, 1],
                   }}
                 >
-                  <div className="relative rounded-[20px] sm:rounded-[24px] overflow-hidden shadow-[0_24px_80px_rgba(0,0,0,0.5)] border border-white/10">
+                  <div className="relative rounded-[16px] sm:rounded-[24px] overflow-hidden shadow-[0_24px_80px_rgba(0,0,0,0.5)] border border-white/10">
                     <div
                       className="relative w-full overflow-hidden"
                       style={{ aspectRatio: "3/4" }}

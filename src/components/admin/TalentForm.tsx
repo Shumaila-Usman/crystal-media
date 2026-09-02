@@ -61,7 +61,7 @@ export function TalentForm({ talentId }: { talentId?: string }) {
     setForm((prev) => ({ ...prev, [key]: value }));
   }
 
-  function updatePlatform(platform: "instagram" | "tiktok" | "youtube", value: string) {
+  function updatePlatform(platform: "instagram" | "youtube", value: string) {
     setForm((prev) => ({
       ...prev,
       platforms: { ...prev.platforms, [platform]: value },
@@ -69,7 +69,7 @@ export function TalentForm({ talentId }: { talentId?: string }) {
   }
 
   function updateMetric(
-    platform: "instagram" | "tiktok" | "youtube",
+    platform: "instagram" | "youtube",
     field: "followers" | "engagementRate",
     value: number
   ) {
@@ -231,7 +231,7 @@ export function TalentForm({ talentId }: { talentId?: string }) {
           <div className="rounded-xl border border-white/8 p-4">
             <h3 className="mb-4 text-sm font-medium text-pearl-white">Platforms</h3>
             <div className="grid gap-4 md:grid-cols-3">
-              {(["instagram", "tiktok", "youtube"] as const).map((platform) => (
+              {(["instagram", "youtube"] as const).map((platform) => (
                 <div key={platform} className="space-y-3">
                   <FormField label={platform.charAt(0).toUpperCase() + platform.slice(1)}>
                     <input
