@@ -54,13 +54,13 @@ export async function BrandMarqueeSection() {
           <div className="pointer-events-none absolute bottom-0 left-0 top-0 z-10 w-16 bg-gradient-to-r from-soft-lavender to-transparent sm:w-24" />
           <div className="pointer-events-none absolute bottom-0 right-0 top-0 z-10 w-16 bg-gradient-to-l from-soft-lavender to-transparent sm:w-24" />
 
-          <div className="marquee-track py-1">
+          <div className="marquee-track marquee-track-slow py-1">
             {marqueeBrands.map((brand, i) => (
               <BrandPill key={`r1-${brand._id ?? brand.name}-${i}`} brand={brand} />
             ))}
           </div>
 
-          <div className="marquee-track marquee-track-reverse py-1">
+          <div className="marquee-track marquee-track-reverse marquee-track-slow py-1">
             {marqueeBrands.map((brand, i) => (
               <BrandPill key={`r2-${brand._id ?? brand.name}-${i}`} brand={brand} />
             ))}
