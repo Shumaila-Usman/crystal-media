@@ -11,17 +11,24 @@ export async function BlogPreviewSection() {
     <section className="section-padding bg-soft-lavender text-ink-black">
       <div className="container-xl">
         <Reveal>
-          <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-12">
+          <p className="text-xs font-semibold tracking-[0.25em] uppercase text-royal-violet mb-4">
+            Blog
+          </p>
+          <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-4">
             <h2 className="font-display text-3xl sm:text-4xl font-bold">
-              Inside influence.
+              Latest insights
             </h2>
             <Link
               href="/blog"
-              className="text-sm font-medium text-royal-violet hover:underline"
+              className="text-sm font-medium text-royal-violet hover:underline shrink-0"
             >
-              View all insights
+              View all articles →
             </Link>
           </div>
+          <p className="text-ink-black/60 max-w-2xl mb-12 leading-relaxed">
+            Strategy notes on influencer marketing, social campaigns, and growing
+            brands in Pakistan.
+          </p>
         </Reveal>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">

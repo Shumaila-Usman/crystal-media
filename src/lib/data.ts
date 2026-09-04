@@ -149,6 +149,24 @@ export async function getTalentBySlug(slug: string): Promise<TalentData | null> 
   return seedTalents.find((t) => t.slug === slug) || null;
 }
 
+export async function resolveTalentQuery(
+  query: string
+): Promise<TalentData | null> {
+  const trimmed = query.trim();
+  if (!trimmed) return null;
+
+  const bySlug = await getTalentBySlug(trimmed);
+  if (bySlug) return bySlug;
+
+  const slugified = trimmed.toLowerCase().replace(/\s+/g, "-");
+  const bySlugified = await getTalentBySlug(slugified);
+  if (bySlugified) return bySlugified;
+
+  const { talents } = await getTalents({ limit: 100 });
+  const normalized = trimmed.toLowerCase();
+  return talents.find((t) => t.name.toLowerCase() === normalized) || null;
+}
+
 export async function getBrands(): Promise<BrandData[]> {
   const db = await connectDB();
   if (db) {

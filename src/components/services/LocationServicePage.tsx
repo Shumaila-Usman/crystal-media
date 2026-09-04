@@ -3,10 +3,11 @@ import { notFound } from "next/navigation";
 import { locationServices } from "@/data/seed";
 import { getServices } from "@/lib/data";
 import { buildMetadata, breadcrumbJsonLd, SITE_URL } from "@/lib/seo";
-import { Reveal, StaggerContainer, StaggerItem } from "@/components/motion/Reveal";
+import { Reveal } from "@/components/motion/Reveal";
+import { ServiceCardsGrid } from "@/components/services/ServiceCardsGrid";
 import { CTASection } from "@/components/sections/CTASection";
 import { Button } from "@/components/shared/Button";
-import { ChevronRight, MapPin, ArrowUpRight } from "lucide-react";
+import { ChevronRight, MapPin } from "lucide-react";
 import type { Metadata } from "next";
 
 interface LocationServicePageProps {
@@ -54,7 +55,7 @@ export async function LocationServicePage({ slug }: LocationServicePageProps) {
         <div className="absolute inset-0 bg-gradient-to-b from-deep-aubergine/40 to-ink-black" />
         <div className="absolute top-1/3 left-1/4 w-96 h-96 rounded-full bg-crystal-magenta/10 blur-[120px] aurora-blob" />
         <div className="container-xl relative z-10">
-          <nav aria-label="Breadcrumb" className="flex items-center gap-2 text-sm text-muted-text mb-8">
+          <nav aria-label="Breadcrumb" className="flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-muted-text mb-8">
             <Link href="/" className="hover:text-pearl-white transition-colors">
               Home
             </Link>
@@ -102,26 +103,7 @@ export async function LocationServicePage({ slug }: LocationServicePageProps) {
             </p>
           </Reveal>
 
-          <StaggerContainer className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-            {services.map((service) => (
-              <StaggerItem key={service.slug}>
-                <Link
-                  href={`/services/${service.slug}`}
-                  className="group block p-6 rounded-[24px] border border-ink-black/5 bg-white hover:shadow-[0_20px_60px_rgba(78,32,74,0.08)] transition-all duration-500 hover:-translate-y-1 h-full"
-                >
-                  <h3 className="font-display text-lg font-bold mb-2 group-hover:text-royal-violet transition-colors">
-                    {service.title}
-                  </h3>
-                  <p className="text-ink-black/60 text-sm leading-relaxed mb-3">
-                    {service.shortDescription}
-                  </p>
-                  <span className="inline-flex items-center gap-1 text-sm font-medium text-royal-violet opacity-0 group-hover:opacity-100 transition-opacity">
-                    Learn more <ArrowUpRight size={14} />
-                  </span>
-                </Link>
-              </StaggerItem>
-            ))}
-          </StaggerContainer>
+          <ServiceCardsGrid services={services} />
         </div>
       </section>
 

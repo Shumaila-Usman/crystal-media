@@ -1,30 +1,33 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo, useId } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { campaignInquirySchema, type CampaignInquiryInput } from "@/lib/validation";
+import {
+  campaignInquirySchema,
+  homepageInquirySchema,
+  type CampaignInquiryInput,
+  type HomepageInquiryInput,
+} from "@/lib/validation";
 import { Button } from "@/components/shared/Button";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
 import { CheckCircle, AlertCircle } from "lucide-react";
 
 const services = [
-  "Luxury Influencer Marketing",
-  "Public Relations",
+  "Social Media Marketing",
+  "Influencer Marketing",
   "Talent Management",
   "Brand Collaborations",
-  "Social Media Strategy",
+  "Public Relations",
   "Events & Launches",
 ];
 
 const budgets = [
-  "Under PKR 100,000",
-  "PKR 100,000 – 500,000",
-  "PKR 500,000 – 1,000,000",
-  "PKR 1,000,000 – 3,000,000",
-  "PKR 3,000,000+",
-  "Not sure yet",
+  "Under Rs. 5 Lac",
+  "Rs. 5 Lac – Rs. 25 Lac",
+  "Rs. 25 Lac – Rs. 1 Crore",
+  "Rs. 1 Crore+",
 ];
 
 const timelines = [
@@ -39,15 +42,220 @@ interface CampaignFormProps {
   selectedCreator?: string;
   selectedCreatorName?: string;
   compact?: boolean;
+  variant?: "full" | "homepage";
   className?: string;
+}
+
+function SuccessState({
+  className,
+  onReset,
+}: {
+  className?: string;
+  onReset: () => void;
+}) {
+  return (
+    <div className={cn("rounded-[20px] border border-white/10 bg-white/[0.03] p-8 text-center", className)}>
+      <CheckCircle className="w-12 h-12 text-electric-purple mx-auto mb-4" />
+      <h3 className="font-display text-xl font-bold mb-2">Thank you!</h3>
+      <p className="text-muted-text text-sm">
+        Your inquiry has been received. Our team will respond within 24 hours.
+      </p>
+      <button
+        type="button"
+        onClick={onReset}
+        className="mt-4 text-sm text-electric-purple hover:underline"
+      >
+        Submit another inquiry
+      </button>
+    </div>
+  );
 }
 
 export function CampaignInquiryForm({
   selectedCreator,
   selectedCreatorName,
   compact = false,
+  variant = "full",
   className,
 }: CampaignFormProps) {
+  const isHomepage = variant === "homepage";
+  const defaultMessage = useMemo(
+    () =>
+      selectedCreatorName
+        ? `I'd like to book ${selectedCreatorName} for a campaign.`
+        : "",
+    [selectedCreatorName]
+  );
+
+  if (isHomepage) {
+    return (
+      <HomepageForm
+        className={className}
+        selectedCreator={selectedCreator}
+        selectedCreatorName={selectedCreatorName}
+        defaultMessage={defaultMessage}
+      />
+    );
+  }
+
+  return (
+    <FullForm
+      className={className}
+      compact={compact}
+      selectedCreator={selectedCreator}
+      selectedCreatorName={selectedCreatorName}
+    />
+  );
+}
+
+function HomepageForm({
+  selectedCreator,
+  selectedCreatorName,
+  defaultMessage,
+  className,
+}: {
+  selectedCreator?: string;
+  selectedCreatorName?: string;
+  defaultMessage: string;
+  className?: string;
+}) {
+  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<HomepageInquiryInput>({
+    resolver: zodResolver(homepageInquirySchema),
+    defaultValues: {
+      role: "brand",
+      selectedTalent: selectedCreator || "",
+      message: defaultMessage,
+    },
+  });
+
+  const onSubmit = async (data: HomepageInquiryInput) => {
+    if (data.honeypot) return;
+    setStatus("loading");
+
+    try {
+      const res = await fetch("/api/inquiries", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          ...data,
+          consent: true,
+          type: "campaign",
+          selectedTalentName: selectedCreatorName,
+        }),
+      });
+
+      if (!res.ok) {
+        const err = await res.json();
+        throw new Error(err.error || "Submission failed");
+      }
+
+      setStatus("success");
+      toast.success("Message sent! We'll be in touch soon.");
+      reset();
+    } catch (err) {
+      setStatus("error");
+      toast.error(err instanceof Error ? err.message : "Something went wrong");
+    }
+  };
+
+  if (status === "success") {
+    return (
+      <SuccessState
+        className={className}
+        onReset={() => setStatus("idle")}
+      />
+    );
+  }
+
+  const inputClass =
+    "w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-pearl-white text-base placeholder:text-muted-text/50 focus:outline-none focus:border-electric-purple/50 transition-colors";
+  const labelClass = "block text-sm font-medium text-pearl-white/80 mb-1.5";
+  const errorClass = "text-warm-coral text-xs mt-1";
+
+  return (
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className={cn("space-y-4", className)}
+    >
+      <input type="text" {...register("honeypot")} className="hidden" tabIndex={-1} autoComplete="off" />
+      <input type="hidden" {...register("selectedTalent")} />
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div>
+          <label className={labelClass}>Full name</label>
+          <input className={inputClass} placeholder="Your name" {...register("fullName")} />
+          {errors.fullName && <p className={errorClass}>{errors.fullName.message}</p>}
+        </div>
+        <div>
+          <label className={labelClass}>Email</label>
+          <input className={inputClass} type="email" placeholder="you@brand.com" {...register("email")} />
+          {errors.email && <p className={errorClass}>{errors.email.message}</p>}
+        </div>
+      </div>
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div>
+          <label className={labelClass}>I am a</label>
+          <select className={inputClass} {...register("role")}>
+            <option value="brand">Brand / Company</option>
+            <option value="creator">Creator / Influencer</option>
+            <option value="agency">Agency Partner</option>
+          </select>
+        </div>
+        <div>
+          <label className={labelClass}>Budget (PKR)</label>
+          <select className={inputClass} {...register("budget")}>
+            <option value="">Select range</option>
+            {budgets.map((b) => (
+              <option key={b} value={b}>{b}</option>
+            ))}
+          </select>
+        </div>
+      </div>
+
+      <div>
+        <label className={labelClass}>Tell us about your project</label>
+        <textarea
+          className={cn(inputClass, "min-h-[120px] resize-y")}
+          placeholder="Campaign goals, timeline, platforms..."
+          {...register("message")}
+        />
+        {errors.message && <p className={errorClass}>{errors.message.message}</p>}
+      </div>
+
+      {status === "error" && (
+        <div className="flex items-center gap-2 text-warm-coral text-sm">
+          <AlertCircle size={16} />
+          Submission failed. Please try again.
+        </div>
+      )}
+
+      <Button type="submit" loading={status === "loading"} className="w-full min-h-[48px]">
+        Send Message
+      </Button>
+    </form>
+  );
+}
+
+function FullForm({
+  selectedCreator,
+  selectedCreatorName,
+  compact,
+  className,
+}: {
+  selectedCreator?: string;
+  selectedCreatorName?: string;
+  compact?: boolean;
+  className?: string;
+}) {
+  const consentId = useId();
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
 
   const {
@@ -95,24 +303,15 @@ export function CampaignInquiryForm({
 
   if (status === "success") {
     return (
-      <div className={cn("glass-card rounded-[24px] p-8 text-center", className)}>
-        <CheckCircle className="w-12 h-12 text-electric-purple mx-auto mb-4" />
-        <h3 className="font-display text-xl font-bold mb-2">Thank you!</h3>
-        <p className="text-muted-text text-sm">
-          Your inquiry has been received. Our team will respond within 24–48 business hours.
-        </p>
-        <button
-          onClick={() => setStatus("idle")}
-          className="mt-4 text-sm text-electric-purple hover:underline"
-        >
-          Submit another inquiry
-        </button>
-      </div>
+      <SuccessState
+        className={className}
+        onReset={() => setStatus("idle")}
+      />
     );
   }
 
   const inputClass =
-    "w-full px-4 py-3 bg-white/5 border border-white/10 rounded-[14px] text-pearl-white text-sm placeholder:text-muted-text/50 focus:outline-none focus:border-electric-purple/50 transition-colors";
+    "w-full px-4 py-3 bg-white/5 border border-white/10 rounded-[14px] text-pearl-white text-base placeholder:text-muted-text/50 focus:outline-none focus:border-electric-purple/50 transition-colors";
   const labelClass = "block text-xs font-medium text-muted-text mb-1.5 tracking-wide uppercase";
   const errorClass = "text-warm-coral text-xs mt-1";
 
@@ -209,14 +408,14 @@ export function CampaignInquiryForm({
         {errors.message && <p className={errorClass}>{errors.message.message}</p>}
       </div>
 
-      <div className="flex items-start gap-3">
+      <div className="flex items-start gap-3 py-1">
         <input
           type="checkbox"
-          id="consent"
-          className="mt-1 accent-electric-purple"
+          id={consentId}
+          className="mt-0.5 accent-electric-purple min-h-[20px] min-w-[20px] shrink-0"
           {...register("consent")}
         />
-        <label htmlFor="consent" className="text-xs text-muted-text leading-relaxed">
+        <label htmlFor={consentId} className="text-sm text-muted-text leading-relaxed py-2 -my-2">
           I agree to Crystal Media&apos;s privacy policy and consent to being contacted about my inquiry.
         </label>
       </div>
@@ -230,7 +429,7 @@ export function CampaignInquiryForm({
       )}
 
       <Button type="submit" loading={status === "loading"} className="w-full">
-        Submit Inquiry
+        Submit inquiry
       </Button>
     </form>
   );

@@ -14,6 +14,16 @@ export const campaignInquirySchema = z.object({
   honeypot: z.string().max(0).optional(),
 });
 
+export const homepageInquirySchema = z.object({
+  fullName: z.string().min(2, "Name must be at least 2 characters"),
+  email: z.string().email("Please enter a valid email"),
+  role: z.enum(["brand", "creator", "agency"]),
+  budget: z.string().optional(),
+  selectedTalent: z.string().optional(),
+  message: z.string().min(10, "Please provide more details"),
+  honeypot: z.string().max(0).optional(),
+});
+
 export const creatorApplicationSchema = z.object({
   fullName: z.string().min(2),
   email: z.string().email(),
@@ -32,4 +42,5 @@ export const loginSchema = z.object({
 });
 
 export type CampaignInquiryInput = z.infer<typeof campaignInquirySchema>;
+export type HomepageInquiryInput = z.infer<typeof homepageInquirySchema>;
 export type CreatorApplicationInput = z.infer<typeof creatorApplicationSchema>;

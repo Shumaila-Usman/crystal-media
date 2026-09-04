@@ -26,6 +26,25 @@ function stripSeedId<T extends { _id?: string }>(items: T[]) {
   return items.map(({ _id, ...rest }) => rest);
 }
 
+async function upsertMany<T extends Record<string, unknown>>(
+  model: {
+    updateOne: (
+      filter: Record<string, unknown>,
+      update: Record<string, unknown>,
+      options: { upsert: boolean }
+    ) => Promise<unknown>;
+  },
+  items: T[],
+  key: keyof T & string
+) {
+  let count = 0;
+  for (const item of items) {
+    await model.updateOne({ [key]: item[key] }, { $set: item }, { upsert: true });
+    count++;
+  }
+  return count;
+}
+
 export async function POST(request: NextRequest) {
   const isDev = process.env.NODE_ENV === "development";
 
@@ -33,6 +52,8 @@ export async function POST(request: NextRequest) {
     const authError = await requireAdmin();
     if (authError) return authError;
   }
+
+  const warnings: string[] = [];
 
   try {
     const dbError = await ensureDb();
@@ -50,13 +71,20 @@ export async function POST(request: NextRequest) {
       email: adminEmail.toLowerCase(),
     });
 
+    let adminCreated = false;
     if (!existingAdmin) {
-      const passwordHash = await hashPassword(adminPassword);
-      await AdminUser.create({
-        email: adminEmail.toLowerCase(),
-        passwordHash,
-        name: "Admin",
-      });
+      try {
+        const passwordHash = await hashPassword(adminPassword);
+        await AdminUser.create({
+          email: adminEmail.toLowerCase(),
+          passwordHash,
+          name: "Admin",
+        });
+        adminCreated = true;
+      } catch (adminError) {
+        warnings.push("Admin user could not be created (collection limit or existing cluster issue).");
+        console.warn("Admin user seed skipped:", adminError);
+      }
     }
 
     const counts = {
@@ -70,100 +98,103 @@ export async function POST(request: NextRequest) {
       settings: 0,
     };
 
+    const seedTalentsData = stripSeedId(seedTalents);
+    const seedServicesData = stripSeedId(seedServices);
+    const seedBrandsData = stripSeedId(seedBrands);
+    const seedPackagesData = stripSeedId(seedPackages);
+    const seedTestimonialsData = stripSeedId(seedTestimonials);
+    const seedBlogData = stripSeedId(seedBlogPosts).map((post) => ({
+      ...post,
+      publishedAt: post.publishedAt ? new Date(post.publishedAt) : undefined,
+    }));
+    const seedFaqsData = stripSeedId(seedFAQs);
+
     if (force) {
-      await Promise.all([
-        Talent.deleteMany({}),
-        Brand.deleteMany({}),
-        Service.deleteMany({}),
-        Package.deleteMany({}),
-        Testimonial.deleteMany({}),
-        BlogPost.deleteMany({}),
-        FAQ.deleteMany({}),
-        SiteSettings.deleteMany({}),
-      ]);
-    }
-
-    const talentCount = await Talent.countDocuments();
-    if (talentCount === 0 || force) {
-      if (force) await Talent.deleteMany({});
-      const inserted = await Talent.insertMany(stripSeedId(seedTalents));
-      counts.talents = inserted.length;
-    }
-
-    const brandCount = await Brand.countDocuments();
-    if (brandCount === 0 || force) {
-      if (force) await Brand.deleteMany({});
-      const inserted = await Brand.insertMany(stripSeedId(seedBrands));
-      counts.brands = inserted.length;
-    }
-
-    const serviceCount = await Service.countDocuments();
-    if (serviceCount === 0 || force) {
-      if (force) await Service.deleteMany({});
-      const inserted = await Service.insertMany(stripSeedId(seedServices));
-      counts.services = inserted.length;
-    }
-
-    const packageCount = await Package.countDocuments();
-    if (packageCount === 0 || force) {
-      if (force) await Package.deleteMany({});
-      const inserted = await Package.insertMany(stripSeedId(seedPackages));
-      counts.packages = inserted.length;
-    }
-
-    const testimonialCount = await Testimonial.countDocuments();
-    if (testimonialCount === 0 || force) {
-      if (force) await Testimonial.deleteMany({});
-      const inserted = await Testimonial.insertMany(
-        stripSeedId(seedTestimonials)
+      counts.talents = await upsertMany(Talent, seedTalentsData, "slug");
+      counts.brands = await upsertMany(Brand, seedBrandsData, "name");
+      counts.services = await upsertMany(Service, seedServicesData, "slug");
+      counts.packages = await upsertMany(Package, seedPackagesData, "slug");
+      counts.testimonials = await upsertMany(
+        Testimonial,
+        seedTestimonialsData,
+        "brandName"
       );
-      counts.testimonials = inserted.length;
-    }
-
-    const blogCount = await BlogPost.countDocuments();
-    if (blogCount === 0 || force) {
-      if (force) await BlogPost.deleteMany({});
-      const blogData = stripSeedId(seedBlogPosts).map((post) => ({
-        ...post,
-        publishedAt: post.publishedAt ? new Date(post.publishedAt) : undefined,
-      }));
-      const inserted = await BlogPost.insertMany(blogData);
-      counts.blogPosts = inserted.length;
-    }
-
-    const faqCount = await FAQ.countDocuments();
-    if (faqCount === 0 || force) {
-      if (force) await FAQ.deleteMany({});
-      const inserted = await FAQ.insertMany(stripSeedId(seedFAQs));
-      counts.faqs = inserted.length;
-    }
-
-    const settingsCount = await SiteSettings.countDocuments();
-    if (settingsCount === 0 || force) {
-      if (force) await SiteSettings.deleteMany({});
-      await SiteSettings.create({
-        ...seedSettings,
-        contactEmail: process.env.CONTACT_RECEIVER_EMAIL || seedSettings.contactEmail,
-        receiverEmail: process.env.CONTACT_RECEIVER_EMAIL || seedSettings.receiverEmail,
-      });
+      counts.blogPosts = await upsertMany(BlogPost, seedBlogData, "slug");
+      counts.faqs = await upsertMany(FAQ, seedFaqsData, "question");
+      await SiteSettings.updateOne(
+        {},
+        {
+          $set: {
+            ...seedSettings,
+            contactEmail:
+              process.env.CONTACT_RECEIVER_EMAIL || seedSettings.contactEmail,
+            receiverEmail:
+              process.env.CONTACT_RECEIVER_EMAIL || seedSettings.receiverEmail,
+          },
+        },
+        { upsert: true }
+      );
       counts.settings = 1;
+    } else {
+      if ((await Talent.countDocuments()) === 0) {
+        counts.talents = await upsertMany(Talent, seedTalentsData, "slug");
+      }
+      if ((await Brand.countDocuments()) === 0) {
+        counts.brands = await upsertMany(Brand, seedBrandsData, "name");
+      }
+      if ((await Service.countDocuments()) === 0) {
+        counts.services = await upsertMany(Service, seedServicesData, "slug");
+      }
+      if ((await Package.countDocuments()) === 0) {
+        counts.packages = await upsertMany(Package, seedPackagesData, "slug");
+      }
+      if ((await Testimonial.countDocuments()) === 0) {
+        counts.testimonials = await upsertMany(
+          Testimonial,
+          seedTestimonialsData,
+          "brandName"
+        );
+      }
+      if ((await BlogPost.countDocuments()) === 0) {
+        counts.blogPosts = await upsertMany(BlogPost, seedBlogData, "slug");
+      }
+      if ((await FAQ.countDocuments()) === 0) {
+        counts.faqs = await upsertMany(FAQ, seedFaqsData, "question");
+      }
+      if ((await SiteSettings.countDocuments()) === 0) {
+        await SiteSettings.updateOne(
+          {},
+          {
+            $set: {
+              ...seedSettings,
+              contactEmail:
+                process.env.CONTACT_RECEIVER_EMAIL || seedSettings.contactEmail,
+              receiverEmail:
+                process.env.CONTACT_RECEIVER_EMAIL || seedSettings.receiverEmail,
+            },
+          },
+          { upsert: true }
+        );
+        counts.settings = 1;
+      }
     }
 
     return NextResponse.json({
       success: true,
       message: force
-        ? "Database re-seeded successfully"
+        ? "Database re-seeded successfully (upsert)"
         : "Database seeded successfully (skipped existing collections)",
       counts,
+      warnings,
       admin: {
         email: adminEmail,
-        created: !existingAdmin,
+        created: adminCreated,
       },
     });
   } catch (error) {
     console.error("Seed error:", error);
     return NextResponse.json(
-      { error: "Failed to seed database" },
+      { error: "Failed to seed database", details: String(error) },
       { status: 500 }
     );
   }

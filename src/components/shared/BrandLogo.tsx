@@ -94,7 +94,7 @@ export function BrandLogo({
       {showIcon && <CrystalIcon className={iconSizes[size]} />}
       <span
         className={cn(
-          "font-display font-bold tracking-[0.18em] uppercase whitespace-nowrap",
+          "font-display font-bold tracking-[0.1em] sm:tracking-[0.18em] uppercase truncate",
           textSizes[size],
           variant === "light" && "text-pearl-white",
           variant === "dark" && "text-ink-black",

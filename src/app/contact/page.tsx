@@ -1,5 +1,5 @@
 import { Suspense } from "react";
-import { getTalentBySlug, getFAQs, getSiteSettings } from "@/lib/data";
+import { getTalentBySlug, getFAQs, getSiteSettings, resolveTalentQuery } from "@/lib/data";
 import { buildMetadata } from "@/lib/seo";
 import { Reveal } from "@/components/motion/Reveal";
 import { ContactPageContent } from "@/components/forms/ContactPageContent";
@@ -35,7 +35,7 @@ export default async function ContactPage({ searchParams }: ContactPageProps) {
   const [settings, faqs, selectedTalent] = await Promise.all([
     getSiteSettings(),
     getFAQs(),
-    creator ? getTalentBySlug(creator) : Promise.resolve(null),
+    creator ? resolveTalentQuery(creator) : Promise.resolve(null),
   ]);
 
   const whatsapp = settings.whatsappNumber || process.env.NEXT_PUBLIC_WHATSAPP_NUMBER;

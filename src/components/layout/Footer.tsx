@@ -71,7 +71,7 @@ export function Footer({ services, settings }: FooterProps) {
                 <li key={service.slug}>
                   <Link
                     href={`/services/${service.slug}`}
-                    className="text-muted-text hover:text-pearl-white text-sm transition-colors"
+                    className="inline-flex items-center min-h-[44px] py-2 text-muted-text hover:text-pearl-white text-sm transition-colors"
                   >
                     {service.title}
                   </Link>
@@ -87,7 +87,7 @@ export function Footer({ services, settings }: FooterProps) {
             <ul className="space-y-2">
               {[
                 { href: "/talents", label: "Our Talent" },
-                { href: "/packages", label: "Packages" },
+                { href: "/packages", label: "Campaign Packages" },
                 { href: "/testimonials", label: "Testimonials" },
                 { href: "/blog", label: "Insights" },
                 { href: "/contact", label: "Contact" },
@@ -95,7 +95,7 @@ export function Footer({ services, settings }: FooterProps) {
                 <li key={link.href}>
                   <Link
                     href={link.href}
-                    className="text-muted-text hover:text-pearl-white text-sm transition-colors"
+                    className="inline-flex items-center min-h-[44px] py-2 text-muted-text hover:text-pearl-white text-sm transition-colors"
                   >
                     {link.label}
                   </Link>
@@ -118,7 +118,7 @@ export function Footer({ services, settings }: FooterProps) {
                 <li key={link.href}>
                   <Link
                     href={link.href}
-                    className="text-muted-text hover:text-pearl-white text-sm transition-colors"
+                    className="inline-flex items-center min-h-[44px] py-2 text-muted-text hover:text-pearl-white text-sm transition-colors"
                   >
                     {link.label}
                   </Link>
@@ -137,7 +137,14 @@ export function Footer({ services, settings }: FooterProps) {
                 <p className="italic text-muted-text/60">Email — configure in admin</p>
               )}
               {settings.phone ? (
-                <p>{settings.phone}</p>
+                <p>
+                  <a
+                    href={`tel:${settings.phone.replace(/\s/g, "")}`}
+                    className="hover:text-pearl-white transition-colors"
+                  >
+                    {settings.phone}
+                  </a>
+                </p>
               ) : (
                 <p className="italic text-muted-text/60">Phone — configure in admin</p>
               )}
@@ -150,10 +157,10 @@ export function Footer({ services, settings }: FooterProps) {
             &copy; {year} Crystal Media. All rights reserved.
           </p>
           <div className="flex items-center gap-6">
-            <Link href="/privacy-policy" className="text-muted-text hover:text-pearl-white text-xs transition-colors">
+            <Link href="/privacy-policy" className="inline-flex items-center min-h-[44px] px-2 text-muted-text hover:text-pearl-white text-xs transition-colors">
               Privacy Policy
             </Link>
-            <Link href="/terms" className="text-muted-text hover:text-pearl-white text-xs transition-colors">
+            <Link href="/terms" className="inline-flex items-center min-h-[44px] px-2 text-muted-text hover:text-pearl-white text-xs transition-colors">
               Terms of Service
             </Link>
           </div>

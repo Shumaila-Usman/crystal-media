@@ -1,20 +1,21 @@
 "use client";
 
-import Image from "next/image";
+import { useEffect } from "react";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import { motion } from "framer-motion";
+import { CampaignInquiryForm } from "@/components/forms/CampaignInquiryForm";
 import { WhatsAppCTA } from "@/components/shared/WhatsAppCTA";
-import type { SiteSettingsData } from "@/types";
 
 function SparkleIcon() {
   return (
     <svg width="10" height="10" viewBox="0 0 10 10" fill="none" aria-hidden>
       <path
         d="M5 0L5.8 4.2L10 5L5.8 5.8L5 10L4.2 5.8L0 5L4.2 4.2L5 0Z"
-        fill="url(#sparkleGrad)"
+        fill="url(#heroSparkleGrad)"
       />
       <defs>
-        <linearGradient id="sparkleGrad" x1="0" y1="0" x2="10" y2="10">
+        <linearGradient id="heroSparkleGrad" x1="0" y1="0" x2="10" y2="10">
           <stop offset="0%" stopColor="#E54699" />
           <stop offset="100%" stopColor="#FF963D" />
         </linearGradient>
@@ -23,99 +24,76 @@ function SparkleIcon() {
   );
 }
 
-const models = [
-  {
-    src: "/hero/model-left-v2.png",
-    alt: "Crystal Media creator — fashion",
-    className:
-      "left-0 sm:left-1 lg:-left-2 z-10 w-[32%] sm:w-[42%] lg:w-[40%] -rotate-6 top-14 sm:top-16 lg:top-20 xl:top-24",
-    imageClassName: "object-cover object-[center_15%]",
-    imageScale: 1.38,
-    imagePosition: "50% 12%",
-    delay: 0.3,
-  },
-  {
-    src: "/hero/model-center.png",
-    alt: "Crystal Media creator — luxury lifestyle",
-    className:
-      "left-1/2 -translate-x-1/2 z-30 w-[44%] sm:w-[48%] lg:w-[46%] top-0 sm:top-1 lg:top-2 xl:top-4",
-    imageClassName: "object-cover object-top",
-    imageScale: 1,
-    imagePosition: "50% 0%",
-    delay: 0.15,
-  },
-  {
-    src: "/hero/model-right.png",
-    alt: "Crystal Media creator — premium fashion",
-    className:
-      "right-0 sm:right-1 lg:-right-2 z-20 w-[32%] sm:w-[42%] lg:w-[40%] rotate-6 top-10 sm:top-12 lg:top-16 xl:top-20",
-    imageClassName: "object-cover object-top",
-    imageScale: 1,
-    imagePosition: "50% 0%",
-    delay: 0.25,
-  },
-];
-
 interface HeroSectionProps {
-  settings: SiteSettingsData;
+  whatsappNumber?: string;
+  creatorSlug?: string;
+  creatorName?: string;
 }
 
-export function HeroSection({ settings }: HeroSectionProps) {
-  return (
-    <section className="relative min-h-0 sm:min-h-screen flex items-center overflow-hidden">
-      {/* Background image */}
-      <div className="absolute inset-0">
-        <Image
-          src="/hero/background.jpg"
-          alt=""
-          fill
-          priority
-          className="object-cover object-center"
-          sizes="100vw"
-          quality={90}
-        />
-        <div className="absolute inset-0 bg-gradient-to-r from-ink-black/95 via-ink-black/75 to-ink-black/40" />
-        <div className="absolute inset-0 bg-gradient-to-t from-ink-black/80 via-transparent to-ink-black/30" />
-      </div>
+export function HeroSection({
+  whatsappNumber,
+  creatorSlug,
+  creatorName,
+}: HeroSectionProps) {
+  const searchParams = useSearchParams();
+  const creatorFromUrl = searchParams.get("creator");
+  const resolvedName =
+    creatorName ||
+    (creatorFromUrl ? decodeURIComponent(creatorFromUrl) : undefined);
 
-      <div className="container-xl relative z-10 pt-24 pb-10 sm:pt-28 sm:pb-16 lg:pt-32 lg:pb-20">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-10 lg:gap-8 items-start lg:min-h-[calc(100vh-8rem)]">
-          {/* Left — Copy */}
+  useEffect(() => {
+    if (window.location.hash === "#contact" || creatorFromUrl) {
+      const el = document.getElementById("contact");
+      el?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  }, [creatorFromUrl]);
+
+  return (
+    <section
+      id="contact"
+      className="relative min-h-0 lg:min-h-screen flex items-center overflow-hidden scroll-mt-24"
+    >
+      <div className="absolute inset-0 bg-ink-black" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_70%_60%_at_20%_50%,rgba(163,58,209,0.22),transparent)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_50%_50%_at_80%_30%,rgba(229,70,153,0.12),transparent)]" />
+      <div className="absolute inset-0 bg-gradient-to-r from-ink-black/95 via-ink-black/80 to-ink-black/70" />
+      <div className="absolute inset-0 bg-gradient-to-t from-ink-black via-transparent to-ink-black/40" />
+
+      <div className="container-xl relative z-10 pt-28 pb-12 sm:pt-32 sm:pb-16 lg:pt-36 lg:pb-20">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-12 xl:gap-16 items-start lg:items-center">
           <motion.div
-            initial={{ opacity: 0, y: 32 }}
+            initial={{ opacity: 0, y: 28 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
+            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
             className="max-w-xl"
           >
-            <p className="text-[11px] sm:text-xs font-semibold tracking-[0.28em] uppercase text-electric-purple/90 mb-5">
+            <p className="text-[10px] sm:text-sm font-semibold tracking-[0.16em] sm:tracking-[0.28em] uppercase text-electric-purple/90 mb-5">
               Luxury Influencer Marketing &amp; PR
             </p>
 
-            <h1 className="font-display text-[1.75rem] sm:text-5xl lg:text-[3.4rem] xl:text-6xl font-bold leading-[1.12] sm:leading-[1.08] mb-5 sm:mb-6 text-pearl-white">
+            <h1 className="font-display text-[1.85rem] sm:text-4xl lg:text-[3.15rem] xl:text-6xl font-bold leading-[1.12] mb-5 sm:mb-6 text-pearl-white">
               We turn influence into{" "}
-              <span className="block sm:inline mt-1 sm:mt-0">
-                <span
-                  className="bg-clip-text text-transparent"
-                  style={{
-                    backgroundImage:
-                      "linear-gradient(135deg, #9632C6 0%, #E54699 55%, #FF963D 100%)",
-                  }}
-                >
-                  iconic brand
-                </span>{" "}
-                moments.
-              </span>
+              <span
+                className="bg-clip-text text-transparent"
+                style={{
+                  backgroundImage:
+                    "linear-gradient(135deg, #9632C6 0%, #E54699 55%, #FF963D 100%)",
+                }}
+              >
+                iconic brand
+              </span>{" "}
+              moments.
             </h1>
 
             <p className="text-pearl-white/60 text-base sm:text-lg leading-relaxed mb-8 max-w-md">
               Crystal Media connects premium brands with culturally relevant
-              creators through strategy-led PR, talent management and
+              creators through strategy-led PR, talent management, and
               high-impact campaigns.
             </p>
 
             <div className="flex flex-col sm:flex-row flex-wrap items-stretch sm:items-center gap-3 sm:gap-4 mb-8 sm:mb-10">
-              <Link
-                href="/contact"
+              <a
+                href="#contact"
                 className="inline-flex items-center justify-center px-6 sm:px-7 py-3.5 text-sm font-semibold text-pearl-white rounded-full transition-all duration-300 hover:shadow-[0_8px_32px_rgba(163,58,209,0.45)] hover:scale-[1.02] active:scale-[0.98] w-full sm:w-auto min-h-[48px]"
                 style={{
                   background:
@@ -123,7 +101,7 @@ export function HeroSection({ settings }: HeroSectionProps) {
                 }}
               >
                 Start a Campaign
-              </Link>
+              </a>
 
               <Link
                 href="/talents"
@@ -132,9 +110,9 @@ export function HeroSection({ settings }: HeroSectionProps) {
                 Explore Talent
               </Link>
 
-              {settings.whatsappNumber && (
+              {whatsappNumber && (
                 <WhatsAppCTA
-                  number={settings.whatsappNumber}
+                  number={whatsappNumber}
                   message="Hi Crystal Media, I'd like to discuss a campaign."
                   label="Chat on WhatsApp"
                   variant="outline"
@@ -160,58 +138,18 @@ export function HeroSection({ settings }: HeroSectionProps) {
             </div>
           </motion.div>
 
-          {/* Right — Model showcase */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 1, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
-            className="relative h-[340px] sm:h-[520px] lg:h-[580px] xl:h-[640px] w-full max-w-md sm:max-w-none mx-auto lg:-mt-6 xl:-mt-10"
+            initial={{ opacity: 0, y: 32 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.9, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
+            className="w-full min-w-0 lg:max-w-xl lg:justify-self-end"
           >
-            {/* Glow behind center card */}
-            <div className="absolute top-[35%] left-1/2 -translate-x-1/2 -translate-y-1/2 w-[65%] h-[75%] rounded-full bg-amber-glow/20 blur-[90px] pointer-events-none" />
-            <div className="absolute top-[38%] left-1/2 -translate-x-1/2 -translate-y-1/2 w-[55%] h-[65%] rounded-full bg-electric-purple/25 blur-[70px] pointer-events-none" />
-
-            <div className="relative w-full h-full">
-              {models.map((model) => (
-                <motion.div
-                  key={model.src}
-                  className={`absolute ${model.className}`}
-                  initial={{ opacity: 0, y: 40 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{
-                    duration: 0.8,
-                    delay: model.delay,
-                    ease: [0.22, 1, 0.36, 1],
-                  }}
-                >
-                  <div className="relative rounded-[16px] sm:rounded-[24px] overflow-hidden shadow-[0_24px_80px_rgba(0,0,0,0.5)] border border-white/10">
-                    <div
-                      className="relative w-full overflow-hidden"
-                      style={{ aspectRatio: "3/4" }}
-                    >
-                      <div
-                        className="absolute inset-0"
-                        style={{
-                          transform: `scale(${model.imageScale})`,
-                          transformOrigin: "top center",
-                        }}
-                      >
-                        <Image
-                          src={model.src}
-                          alt={model.alt}
-                          fill
-                          className={model.imageClassName}
-                          style={{ objectPosition: model.imagePosition }}
-                          sizes="(max-width: 768px) 40vw, 22vw"
-                          priority
-                        />
-                      </div>
-                      <div className="absolute inset-0 bg-gradient-to-t from-ink-black/30 via-transparent to-transparent pointer-events-none" />
-                    </div>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
+            <CampaignInquiryForm
+              variant="full"
+              selectedCreator={creatorSlug}
+              selectedCreatorName={resolvedName}
+              className="shadow-[0_24px_80px_rgba(0,0,0,0.45)] max-h-none"
+            />
           </motion.div>
         </div>
       </div>

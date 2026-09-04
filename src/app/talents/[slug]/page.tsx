@@ -161,14 +161,14 @@ export default async function TalentDetailPage({ params }: TalentPageProps) {
                       href={p.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex items-center justify-between p-4 glass-card rounded-[16px] hover:border-electric-purple/30 transition-colors group"
+                      className="flex items-center justify-between p-4 glass-card rounded-[16px] hover:border-electric-purple/30 transition-colors group min-h-[48px]"
                     >
-                      <div className="flex items-center gap-3">
-                        <p.icon className="text-crystal-magenta" />
-                        <div>
+                      <div className="flex items-center gap-3 min-w-0 flex-1">
+                        <p.icon className="text-crystal-magenta shrink-0" />
+                        <div className="min-w-0">
                           <p className="font-medium text-sm">{p.label}</p>
                           {p.metrics && (
-                            <p className="text-xs text-muted-text">
+                            <p className="text-xs text-muted-text truncate">
                               {p.key === "instagram" && instagramHandle(p.url)
                                 ? `${instagramHandle(p.url)} · `
                                 : ""}
@@ -183,7 +183,10 @@ export default async function TalentDetailPage({ params }: TalentPageProps) {
                 </div>
               )}
 
-              <Link href={`/contact?creator=${talent.slug}`} className="block w-full sm:w-auto">
+              <Link
+                href={`/?creator=${encodeURIComponent(talent.name)}#contact`}
+                className="block w-full sm:w-auto"
+              >
                 <Button size="lg" className="w-full sm:w-auto">Collaborate with {talent.name.split(" ")[0]}</Button>
               </Link>
             </Reveal>

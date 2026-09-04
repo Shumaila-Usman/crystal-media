@@ -18,7 +18,7 @@ export const seedTalents: TalentData[] = [
     city: "Lahore",
     bio: "Alina brings editorial fashion sensibility to everyday lifestyle content, partnering with premium brands across South Asia.",
     specialties: ["Fashion", "Lifestyle", "Brand Campaigns"],
-    image: "/talents/talent-1.png",
+    image: "/talents/alina-amir.jpg",
     gallery: [],
     platforms: { instagram: "https://www.instagram.com/alinaamiirr/" },
     metrics: {
@@ -38,7 +38,7 @@ export const seedTalents: TalentData[] = [
     city: "Karachi",
     bio: "Jannat connects with millions through refined lifestyle and fashion content built for premium brand partnerships.",
     specialties: ["Lifestyle", "Fashion", "Brand Campaigns"],
-    image: "/talents/talent-2.png",
+    image: "/talents/jannat-mirza.jpg",
     gallery: [],
     platforms: { instagram: "https://www.instagram.com/jannatmirza_/" },
     metrics: {
@@ -58,7 +58,7 @@ export const seedTalents: TalentData[] = [
     city: "Lahore",
     bio: "Iqra is known for refined beauty and lifestyle content that resonates with discerning audiences across Pakistan.",
     specialties: ["Beauty", "Lifestyle", "Brand Campaigns"],
-    image: "/talents/talent-3.png",
+    image: "/talents/iqra-kanwal.jpg",
     gallery: [],
     platforms: { instagram: "https://www.instagram.com/iqrakanwal.official/" },
     metrics: {
@@ -78,7 +78,7 @@ export const seedTalents: TalentData[] = [
     city: "Karachi",
     bio: "Zarnab creates elevated lifestyle and fashion storytelling for brands seeking culturally relevant creator partnerships.",
     specialties: ["Fashion", "Lifestyle", "Brand Campaigns"],
-    image: "/talents/talent-4.png",
+    image: "/talents/zarnab-laraib.jpg",
     gallery: [],
     platforms: { instagram: "https://www.instagram.com/___zarnabfatima/" },
     metrics: {
@@ -98,7 +98,7 @@ export const seedTalents: TalentData[] = [
     city: "Islamabad",
     bio: "Maryam blends lifestyle and fashion content for brands targeting Pakistan's style-conscious, digitally native audience.",
     specialties: ["Fashion", "Lifestyle", "Brand Campaigns"],
-    image: "/talents/talent-5.png",
+    image: "/talents/maryam-noor.jpg",
     gallery: [],
     platforms: { instagram: "https://www.instagram.com/maryamnoorofficial/" },
     metrics: {
@@ -118,7 +118,7 @@ export const seedTalents: TalentData[] = [
     city: "Lahore",
     bio: "Aiman creates engaging entertainment and lifestyle content with an authentic voice brands love for meaningful reach.",
     specialties: ["Entertainment", "Lifestyle", "Brand Campaigns"],
-    image: "/talents/talent-6.png",
+    image: "/talents/aiman-zaman.jpg",
     gallery: [],
     platforms: { instagram: "https://www.instagram.com/aimanzamanofficial/" },
     metrics: {
@@ -138,8 +138,7 @@ export const seedTalents: TalentData[] = [
     city: "Karachi",
     bio: "Hiba curates aspirational drama and lifestyle content for premium fashion and lifestyle brand partnerships.",
     specialties: ["Drama", "Fashion", "Lifestyle"],
-    image: "/talents/talent-7.png",
-    imageObjectPosition: "50% 25%",
+    image: "/talents/hiba-bukhari.png",
     gallery: [],
     platforms: { instagram: "https://www.instagram.com/ihibaqadir__/" },
     metrics: {
@@ -188,7 +187,7 @@ export const seedServices: ServiceData[] = [
   {
     _id: "svc-1",
     title: "Luxury Influencer Marketing",
-    slug: "luxury-influencer-marketing",
+    slug: "influencer-marketing",
     shortDescription:
       "Strategic creator partnerships that elevate your brand with culturally relevant, high-impact content.",
     description:
@@ -298,7 +297,7 @@ export const seedServices: ServiceData[] = [
   {
     _id: "svc-5",
     title: "Social Media Strategy & Content",
-    slug: "social-media-strategy",
+    slug: "social-media-marketing",
     shortDescription:
       "Data-driven social strategies and content frameworks that build lasting audience connection.",
     description:

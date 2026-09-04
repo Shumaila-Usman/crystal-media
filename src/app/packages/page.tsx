@@ -40,7 +40,7 @@ export default async function PackagesPage() {
 
       <section className="section-padding bg-pearl-white text-ink-black">
         <div className="container-xl">
-          <StaggerContainer className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <StaggerContainer className="grid grid-cols-1 lg:grid-cols-3 gap-6 pt-4">
             {packages.map((pkg) => (
               <StaggerItem key={pkg.slug}>
                 <div

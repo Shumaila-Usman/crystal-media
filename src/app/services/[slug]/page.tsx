@@ -122,19 +122,47 @@ export default async function ServiceDetailPage({ params }: ServicePageProps) {
                 </p>
               </div>
             </div>
-            <Link href="/contact">
-              <Button size="lg">Start a Campaign</Button>
-            </Link>
+            <div className="flex flex-wrap gap-4 mt-8">
+              <Link href="/#contact">
+                <Button size="lg">Start a project</Button>
+              </Link>
+              <Link href="/talents">
+                <Button variant="secondary" size="lg">
+                  Browse talents
+                </Button>
+              </Link>
+            </div>
           </Reveal>
         </div>
       </section>
 
       <section className="section-padding bg-pearl-white text-ink-black">
+        <div className="container-xl max-w-4xl space-y-10">
+          <Reveal>
+            <h2 className="font-display text-2xl sm:text-3xl font-bold mb-4">
+              What we do
+            </h2>
+            <p className="text-ink-black/70 text-lg leading-relaxed">
+              {service.description}
+            </p>
+          </Reveal>
+          <Reveal delay={0.05}>
+            <h2 className="font-display text-2xl sm:text-3xl font-bold mb-4">
+              Who we help
+            </h2>
+            <p className="text-ink-black/70 text-lg leading-relaxed">
+              {service.idealClient}
+            </p>
+          </Reveal>
+        </div>
+      </section>
+
+      <section className="section-padding bg-pearl-white text-ink-black border-t border-ink-black/5">
         <div className="container-xl max-w-4xl">
           <Reveal>
             <h2 className="font-display text-2xl sm:text-3xl font-bold mb-6">Overview</h2>
             <p className="text-ink-black/70 text-lg leading-relaxed mb-8">
-              {service.description}
+              {service.shortDescription}
             </p>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               {service.benefits.map((benefit) => (

@@ -9,6 +9,20 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  async redirects() {
+    return [
+      {
+        source: "/services/luxury-influencer-marketing",
+        destination: "/services/influencer-marketing",
+        permanent: true,
+      },
+      {
+        source: "/services/social-media-strategy",
+        destination: "/services/social-media-marketing",
+        permanent: true,
+      },
+    ];
+  },
 };
 
 export default nextConfig;

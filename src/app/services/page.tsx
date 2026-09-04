@@ -1,130 +1,163 @@
 import Link from "next/link";
-import { getServices } from "@/lib/data";
 import { buildMetadata } from "@/lib/seo";
-import { Reveal, StaggerContainer, StaggerItem } from "@/components/motion/Reveal";
-import { CTASection } from "@/components/sections/CTASection";
-import {
-  ArrowUpRight,
-  Crown,
-  Megaphone,
-  Users,
-  Handshake,
-  BarChart3,
-  Sparkles,
-  MapPin,
-} from "lucide-react";
+import { Reveal } from "@/components/motion/Reveal";
+import { servicesFocusLinks } from "@/data/service-hubs";
+import { Button } from "@/components/shared/Button";
+import { ChevronLeft } from "lucide-react";
 
 export const metadata = buildMetadata({
-  title: "Services | Crystal Media",
+  title: "Services | Social Media & Influencer Marketing | Crystal Media",
   description:
-    "Luxury influencer marketing, PR, talent management, brand collaborations, social media strategy, and event activations across Pakistan.",
+    "Social media marketing agency and influencer marketing agency in Pakistan — brand deals, creator campaigns, and talent management built for measurable results.",
   path: "/services",
 });
 
-const iconMap: Record<string, React.ReactNode> = {
-  crown: <Crown size={24} />,
-  megaphone: <Megaphone size={24} />,
-  users: <Users size={24} />,
-  handshake: <Handshake size={24} />,
-  chart: <BarChart3 size={24} />,
-  sparkles: <Sparkles size={24} />,
-};
-
-const locations = [
+const exploreLinks = [
+  { href: "/services", label: "All services" },
   { href: "/services/pakistan", label: "Pakistan" },
-  { href: "/services/lahore", label: "Lahore" },
   { href: "/services/karachi", label: "Karachi" },
+  { href: "/services/lahore", label: "Lahore" },
   { href: "/services/islamabad", label: "Islamabad" },
+  { href: "/packages", label: "Packages" },
+  { href: "/testimonials", label: "Reviews" },
 ];
 
-export default async function ServicesPage() {
-  const services = await getServices();
-
+export default function ServicesPage() {
   return (
     <>
-      <section className="relative pt-32 pb-20 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-b from-deep-aubergine/40 to-ink-black" />
-        <div className="absolute top-1/3 right-1/4 w-96 h-96 rounded-full bg-electric-purple/10 blur-[120px] aurora-blob" />
+      <section className="relative overflow-hidden bg-ink-black pt-28 pb-14 sm:pt-32 sm:pb-20">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_50%_at_50%_100%,rgba(115,37,139,0.22),transparent)]" />
         <div className="container-xl relative z-10">
           <Reveal>
-            <p className="text-electric-purple text-sm font-medium tracking-widest uppercase mb-4">
-              Our Services
-            </p>
-            <h1 className="font-display text-3xl sm:text-5xl lg:text-6xl font-bold max-w-3xl mb-6">
-              Strategy-led influence for{" "}
-              <span className="gradient-text">premium brands</span>
+            <nav className="mb-10 flex flex-wrap items-center gap-2 text-sm text-muted-text">
+              <Link
+                href="/"
+                className="inline-flex items-center gap-1.5 hover:text-pearl-white transition-colors"
+              >
+                <ChevronLeft size={16} />
+                Back to home
+              </Link>
+              <span className="text-white/25">/</span>
+              <span className="font-medium tracking-[0.18em] text-pearl-white/70 uppercase text-xs">
+                Services
+              </span>
+            </nav>
+
+            <h1 className="font-display text-3xl sm:text-4xl lg:text-[3.25rem] font-bold max-w-4xl mb-6 leading-[1.12] text-pearl-white">
+              Social media &amp; influencer marketing{" "}
+              <span className="gradient-text">that converts</span>
             </h1>
-            <p className="text-muted-text text-lg max-w-2xl leading-relaxed">
-              From creator curation to PR amplification, we deliver end-to-end
-              campaigns that elevate your brand across Pakistan&apos;s most engaged
-              audiences.
+            <p className="text-muted-text text-base sm:text-lg max-w-3xl leading-relaxed mb-8">
+              Crystal Media is a social media marketing agency and influencer
+              marketing agency in Pakistan — brand deals, creator campaigns, and
+              talent management built for measurable results.
             </p>
-          </Reveal>
-        </div>
-      </section>
-
-      <section className="section-padding bg-pearl-white text-ink-black">
-        <div className="container-xl">
-          <StaggerContainer className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-            {services.map((service) => (
-              <StaggerItem key={service.slug}>
-                <Link
-                  href={`/services/${service.slug}`}
-                  className="group relative block p-8 rounded-[24px] border border-ink-black/5 bg-white hover:shadow-[0_20px_60px_rgba(78,32,74,0.08)] transition-all duration-500 hover:-translate-y-1 h-full"
-                >
-                  <div
-                    className="absolute inset-0 rounded-[24px] opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-                    style={{
-                      background:
-                        "linear-gradient(135deg, rgba(90,28,104,0.03), rgba(229,70,153,0.03))",
-                    }}
-                  />
-                  <div className="relative z-10">
-                    <div className="w-12 h-12 rounded-[14px] bg-gradient-to-br from-royal-violet/10 to-crystal-magenta/10 flex items-center justify-center text-royal-violet mb-5">
-                      {iconMap[service.icon] || <Sparkles size={24} />}
-                    </div>
-                    <h2 className="font-display text-xl font-bold mb-3 group-hover:text-royal-violet transition-colors">
-                      {service.title}
-                    </h2>
-                    <p className="text-ink-black/60 text-sm leading-relaxed mb-4">
-                      {service.shortDescription}
-                    </p>
-                    <span className="inline-flex items-center gap-1 text-sm font-medium text-royal-violet opacity-0 group-hover:opacity-100 transition-opacity">
-                      Learn more <ArrowUpRight size={14} />
-                    </span>
-                  </div>
-                </Link>
-              </StaggerItem>
-            ))}
-          </StaggerContainer>
-        </div>
-      </section>
-
-      <section className="section-padding bg-ink-black">
-        <div className="container-xl">
-          <Reveal>
-            <div className="flex items-center gap-3 mb-8">
-              <MapPin className="text-electric-purple" size={20} />
-              <h2 className="font-display text-2xl sm:text-3xl font-bold">
-                Services by location
-              </h2>
-            </div>
-            <div className="flex flex-wrap gap-3">
-              {locations.map((loc) => (
-                <Link
-                  key={loc.href}
-                  href={loc.href}
-                  className="px-5 py-2.5 glass-card rounded-full text-sm font-medium hover:border-electric-purple/30 transition-colors"
-                >
-                  {loc.label}
-                </Link>
-              ))}
+            <div className="flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-4">
+              <Link href="/#contact" className="w-full sm:w-auto">
+                <Button size="lg" className="w-full sm:w-auto min-h-[48px]">
+                  Start a project
+                </Button>
+              </Link>
+              <Link href="/talents" className="w-full sm:w-auto">
+                <Button variant="secondary" size="lg" className="w-full sm:w-auto min-h-[48px]">
+                  Browse talents
+                </Button>
+              </Link>
             </div>
           </Reveal>
         </div>
       </section>
 
-      <CTASection />
+      <section className="section-padding bg-[#f7f7f9] text-ink-black">
+        <div className="container-xl">
+          <div className="grid grid-cols-1 gap-12 lg:grid-cols-[minmax(0,1fr)_320px] xl:grid-cols-[minmax(0,1fr)_360px] xl:gap-16">
+            <div className="space-y-12 min-w-0">
+              <Reveal>
+                <h2 className="font-display text-2xl sm:text-3xl font-bold mb-4">
+                  What we do
+                </h2>
+                <p className="text-ink-black/65 text-base sm:text-lg leading-relaxed max-w-3xl">
+                  We connect brands with vetted creators and run end-to-end social
+                  media marketing services — strategy, influencer outreach, content
+                  coordination, and reporting.
+                </p>
+              </Reveal>
+
+              <Reveal delay={0.05}>
+                <h2 className="font-display text-2xl sm:text-3xl font-bold mb-4">
+                  Who we help
+                </h2>
+                <p className="text-ink-black/65 text-base sm:text-lg leading-relaxed max-w-3xl">
+                  E‑commerce brands, startups, agencies, and growing businesses that
+                  need Instagram and YouTube influence without managing dozens of
+                  creators in-house.
+                </p>
+              </Reveal>
+
+              <Reveal delay={0.1}>
+                <h2 className="font-display text-2xl sm:text-3xl font-bold mb-6">
+                  Choose a focus
+                </h2>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  {servicesFocusLinks.map((link) => (
+                    <Link
+                      key={link.href}
+                      href={link.href}
+                      className="group flex min-h-[108px] flex-col justify-center rounded-2xl border border-ink-black/[0.08] bg-white p-5 transition-all hover:border-royal-violet/20 hover:shadow-[0_8px_30px_rgba(78,32,74,0.08)]"
+                    >
+                      <p className="font-display text-base font-bold text-ink-black group-hover:text-royal-violet transition-colors">
+                        {link.title}
+                      </p>
+                      <span className="mt-2 text-sm font-medium text-royal-violet">
+                        Learn more →
+                      </span>
+                    </Link>
+                  ))}
+                </div>
+              </Reveal>
+            </div>
+
+            <aside className="space-y-5 lg:sticky lg:top-28 lg:self-start">
+              <Reveal delay={0.15}>
+                <div className="rounded-2xl bg-ink-black p-6 sm:p-7 text-pearl-white">
+                  <h3 className="font-display text-xl font-bold mb-2">
+                    Talk to Crystal Media
+                  </h3>
+                  <p className="text-sm text-pearl-white/60 leading-relaxed mb-6">
+                    Tell us your brand goals — we reply within 24 hours with a
+                    tailored plan.
+                  </p>
+                  <Link href="/#contact" className="block">
+                    <Button size="lg" className="w-full min-h-[48px]">
+                      Send message
+                    </Button>
+                  </Link>
+                </div>
+              </Reveal>
+
+              <Reveal delay={0.2}>
+                <div className="rounded-2xl border border-ink-black/[0.08] bg-white p-6 sm:p-7">
+                  <h3 className="font-display text-xl font-bold text-ink-black mb-4">
+                    Explore
+                  </h3>
+                  <ul className="space-y-3">
+                    {exploreLinks.map((link) => (
+                      <li key={link.href}>
+                        <Link
+                          href={link.href}
+                          className="text-sm font-medium text-royal-violet hover:text-electric-purple transition-colors"
+                        >
+                          {link.label}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </Reveal>
+            </aside>
+          </div>
+        </div>
+      </section>
     </>
   );
 }

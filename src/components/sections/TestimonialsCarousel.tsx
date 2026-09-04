@@ -4,7 +4,6 @@ import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import type { TestimonialData } from "@/types";
 import { Star, ChevronLeft, ChevronRight } from "lucide-react";
-import Link from "next/link";
 import { Reveal } from "@/components/motion/Reveal";
 
 function StarRating({ rating }: { rating: number }) {
@@ -43,7 +42,23 @@ export function TestimonialsCarousel({
     return () => clearInterval(timer);
   }, [paused, next, testimonials.length]);
 
-  if (testimonials.length === 0) return null;
+  if (testimonials.length === 0) {
+    return (
+      <section className="section-padding bg-pearl-white text-ink-black">
+        <div className="container-xl">
+          <Reveal>
+            <p className="text-xs font-semibold tracking-[0.25em] uppercase text-royal-violet mb-4 text-center">
+              Testimonials
+            </p>
+            <h2 className="font-display text-3xl sm:text-4xl font-bold text-center mb-8">
+              Loved by brands &amp; creators
+            </h2>
+            <p className="text-center text-ink-black/40 text-sm">Loading reviews…</p>
+          </Reveal>
+        </div>
+      </section>
+    );
+  }
 
   const t = testimonials[current];
 
@@ -51,17 +66,12 @@ export function TestimonialsCarousel({
     <section className="section-padding bg-pearl-white text-ink-black">
       <div className="container-xl">
         <Reveal>
-          <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-12">
-            <h2 className="font-display text-3xl sm:text-4xl font-bold">
-              Loved by brands. Trusted by talent.
-            </h2>
-            <Link
-              href="/testimonials"
-              className="text-sm font-medium text-royal-violet hover:underline"
-            >
-              View all testimonials
-            </Link>
-          </div>
+          <p className="text-xs font-semibold tracking-[0.25em] uppercase text-royal-violet mb-4 text-center">
+            Testimonials
+          </p>
+          <h2 className="font-display text-3xl sm:text-4xl font-bold text-center mb-12">
+            Loved by brands &amp; creators
+          </h2>
         </Reveal>
 
         <div

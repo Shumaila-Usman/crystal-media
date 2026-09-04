@@ -16,6 +16,21 @@ export function formatFollowers(num: number): string {
   return formatNumber(num);
 }
 
+export function formatFollowersLong(num: number): string {
+  if (num >= 1_000_000) {
+    const value = num / 1_000_000;
+    const formatted =
+      value >= 10
+        ? Math.round(value).toString()
+        : value.toFixed(1).replace(/\.0$/, "");
+    return `${formatted} Million`;
+  }
+  if (num >= 1_000) {
+    return `${(num / 1_000).toFixed(1).replace(/\.0$/, "")}K`;
+  }
+  return num.toLocaleString();
+}
+
 export function getWhatsAppLink(number: string, message?: string): string {
   const cleaned = number.replace(/\D/g, "");
   const base = `https://wa.me/${cleaned}`;

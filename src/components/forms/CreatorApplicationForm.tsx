@@ -73,7 +73,7 @@ export function CreatorApplicationForm({ className }: CreatorApplicationFormProp
   }
 
   const inputClass =
-    "w-full px-4 py-3 bg-white/5 border border-white/10 rounded-[14px] text-pearl-white text-sm placeholder:text-muted-text/50 focus:outline-none focus:border-electric-purple/50 transition-colors";
+    "w-full px-4 py-3 bg-white/5 border border-white/10 rounded-[14px] text-pearl-white text-base placeholder:text-muted-text/50 focus:outline-none focus:border-electric-purple/50 transition-colors";
   const labelClass = "block text-xs font-medium text-muted-text mb-1.5 tracking-wide uppercase";
   const errorClass = "text-warm-coral text-xs mt-1";
 

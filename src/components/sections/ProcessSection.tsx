@@ -7,25 +7,25 @@ const steps = [
     number: "01",
     title: "Discover",
     description:
-      "Understand the brand, audience, objectives, budget, and campaign KPIs.",
+      "Deep-dive into brand goals, audience demographics, and campaign KPIs to craft a winning strategy.",
   },
   {
     number: "02",
-    title: "Curate",
+    title: "Match",
     description:
-      "Match the brand with creators based on audience quality, brand fit, content style, and reputation.",
+      "AI-assisted creator vetting matched with human intuition — finding voices that resonate authentically.",
   },
   {
     number: "03",
-    title: "Create",
+    title: "Execute",
     description:
-      "Manage briefs, approvals, negotiations, production, timelines, and publishing.",
+      "End-to-end deal management, content coordination, and real-time campaign monitoring.",
   },
   {
     number: "04",
     title: "Amplify",
     description:
-      "Track performance, report results, repurpose content, and optimize the next campaign.",
+      "Performance analysis, ROI reporting, and optimization for scale on your next campaign.",
   },
 ];
 
@@ -34,9 +34,16 @@ export function ProcessSection() {
     <section className="section-padding bg-midnight-plum relative">
       <div className="container-xl">
         <Reveal>
-          <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-bold mb-16 text-center">
-            From first brief to lasting influence.
+          <p className="text-xs font-semibold tracking-[0.25em] uppercase text-crystal-magenta mb-4 text-center">
+            How it works
+          </p>
+          <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-bold mb-4 text-center">
+            From brief to brilliance
           </h2>
+          <p className="text-muted-text text-center max-w-2xl mx-auto mb-16 leading-relaxed">
+            A battle-tested four-step framework that removes friction and
+            maximizes every collaboration.
+          </p>
         </Reveal>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 relative">
