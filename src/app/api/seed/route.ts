@@ -61,6 +61,9 @@ export async function POST(request: NextRequest) {
 
     const body = await request.json().catch(() => ({}));
     const force = body.force === true;
+    const brandsOnly = body.brandsOnly === true;
+    const talentsOnly = body.talentsOnly === true;
+    const onlyMode = brandsOnly || talentsOnly;
 
     const adminEmail =
       process.env.ADMIN_EMAIL || "admin@crystalmedia.pk";
@@ -109,33 +112,80 @@ export async function POST(request: NextRequest) {
     }));
     const seedFaqsData = stripSeedId(seedFAQs);
 
-    if (force) {
-      counts.talents = await upsertMany(Talent, seedTalentsData, "slug");
-      counts.brands = await upsertMany(Brand, seedBrandsData, "name");
-      counts.services = await upsertMany(Service, seedServicesData, "slug");
-      counts.packages = await upsertMany(Package, seedPackagesData, "slug");
-      counts.testimonials = await upsertMany(
-        Testimonial,
-        seedTestimonialsData,
-        "brandName"
-      );
-      counts.blogPosts = await upsertMany(BlogPost, seedBlogData, "slug");
-      counts.faqs = await upsertMany(FAQ, seedFaqsData, "question");
-      await SiteSettings.updateOne(
-        {},
-        {
-          $set: {
-            ...seedSettings,
-            contactEmail:
-              process.env.CONTACT_RECEIVER_EMAIL || seedSettings.contactEmail,
-            receiverEmail:
-              process.env.CONTACT_RECEIVER_EMAIL || seedSettings.receiverEmail,
+    if (force || brandsOnly) {
+      try {
+        await Brand.deleteMany({});
+        counts.brands = await upsertMany(Brand, seedBrandsData, "name");
+      } catch (brandError) {
+        warnings.push("Brands could not be seeded (database limit or connection issue).");
+        console.warn("Brand seed skipped:", brandError);
+      }
+    }
+
+    if (force || talentsOnly) {
+      try {
+        counts.talents = await upsertMany(Talent, seedTalentsData, "slug");
+      } catch (talentError) {
+        warnings.push("Talents could not be seeded (database limit or connection issue).");
+        console.warn("Talent seed skipped:", talentError);
+      }
+    }
+
+    if (force && !onlyMode) {
+      try {
+        counts.services = await upsertMany(Service, seedServicesData, "slug");
+      } catch (serviceError) {
+        warnings.push("Services could not be seeded.");
+        console.warn("Service seed skipped:", serviceError);
+      }
+      try {
+        counts.packages = await upsertMany(Package, seedPackagesData, "slug");
+      } catch (packageError) {
+        warnings.push("Packages could not be seeded.");
+        console.warn("Package seed skipped:", packageError);
+      }
+      try {
+        counts.testimonials = await upsertMany(
+          Testimonial,
+          seedTestimonialsData,
+          "brandName"
+        );
+      } catch (testimonialError) {
+        warnings.push("Testimonials could not be seeded.");
+        console.warn("Testimonial seed skipped:", testimonialError);
+      }
+      try {
+        counts.blogPosts = await upsertMany(BlogPost, seedBlogData, "slug");
+      } catch (blogError) {
+        warnings.push("Blog posts could not be seeded.");
+        console.warn("Blog seed skipped:", blogError);
+      }
+      try {
+        counts.faqs = await upsertMany(FAQ, seedFaqsData, "question");
+      } catch (faqError) {
+        warnings.push("FAQs could not be seeded.");
+        console.warn("FAQ seed skipped:", faqError);
+      }
+      try {
+        await SiteSettings.updateOne(
+          {},
+          {
+            $set: {
+              ...seedSettings,
+              contactEmail:
+                process.env.CONTACT_RECEIVER_EMAIL || seedSettings.contactEmail,
+              receiverEmail:
+                process.env.CONTACT_RECEIVER_EMAIL || seedSettings.receiverEmail,
+            },
           },
-        },
-        { upsert: true }
-      );
-      counts.settings = 1;
-    } else {
+          { upsert: true }
+        );
+        counts.settings = 1;
+      } catch (settingsError) {
+        warnings.push("Settings could not be seeded.");
+        console.warn("Settings seed skipped:", settingsError);
+      }
+    } else if (!force && !onlyMode) {
       if ((await Talent.countDocuments()) === 0) {
         counts.talents = await upsertMany(Talent, seedTalentsData, "slug");
       }
@@ -183,7 +233,11 @@ export async function POST(request: NextRequest) {
       success: true,
       message: force
         ? "Database re-seeded successfully (upsert)"
-        : "Database seeded successfully (skipped existing collections)",
+        : brandsOnly
+          ? "Brand logos seeded successfully"
+          : talentsOnly
+            ? "Talent profiles seeded successfully"
+            : "Database seeded successfully (skipped existing collections)",
       counts,
       warnings,
       admin: {

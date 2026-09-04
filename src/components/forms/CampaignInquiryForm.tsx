@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useMemo, useId } from "react";
-import { useForm } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   campaignInquirySchema,
@@ -10,6 +10,7 @@ import {
   type HomepageInquiryInput,
 } from "@/lib/validation";
 import { Button } from "@/components/shared/Button";
+import { FormSelect, type FormSelectOption } from "@/components/forms/FormSelect";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
 import { CheckCircle, AlertCircle } from "lucide-react";
@@ -36,6 +37,33 @@ const timelines = [
   "2–3 months",
   "3+ months",
   "Flexible",
+];
+
+const roleOptions: FormSelectOption[] = [
+  { value: "brand", label: "Brand / Company" },
+  { value: "creator", label: "Creator / Influencer" },
+  { value: "agency", label: "Agency Partner" },
+];
+
+const roleOptionsCompact: FormSelectOption[] = [
+  { value: "brand", label: "Brand" },
+  { value: "creator", label: "Creator" },
+  { value: "agency", label: "Agency Partner" },
+];
+
+const budgetOptions: FormSelectOption[] = [
+  { value: "", label: "Select range" },
+  ...budgets.map((budget) => ({ value: budget, label: budget })),
+];
+
+const serviceOptions: FormSelectOption[] = [
+  { value: "", label: "Select a service" },
+  ...services.map((service) => ({ value: service, label: service })),
+];
+
+const timelineOptions: FormSelectOption[] = [
+  { value: "", label: "Select timeline" },
+  ...timelines.map((timeline) => ({ value: timeline, label: timeline })),
 ];
 
 interface CampaignFormProps {
@@ -125,6 +153,7 @@ function HomepageForm({
     register,
     handleSubmit,
     reset,
+    control,
     formState: { errors },
   } = useForm<HomepageInquiryInput>({
     resolver: zodResolver(homepageInquirySchema),
@@ -203,20 +232,35 @@ function HomepageForm({
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
           <label className={labelClass}>I am a</label>
-          <select className={inputClass} {...register("role")}>
-            <option value="brand">Brand / Company</option>
-            <option value="creator">Creator / Influencer</option>
-            <option value="agency">Agency Partner</option>
-          </select>
+          <Controller
+            name="role"
+            control={control}
+            render={({ field }) => (
+              <FormSelect
+                value={field.value}
+                onChange={field.onChange}
+                onBlur={field.onBlur}
+                options={roleOptions}
+                placeholder="Select role"
+              />
+            )}
+          />
         </div>
         <div>
           <label className={labelClass}>Budget (PKR)</label>
-          <select className={inputClass} {...register("budget")}>
-            <option value="">Select range</option>
-            {budgets.map((b) => (
-              <option key={b} value={b}>{b}</option>
-            ))}
-          </select>
+          <Controller
+            name="budget"
+            control={control}
+            render={({ field }) => (
+              <FormSelect
+                value={field.value || ""}
+                onChange={field.onChange}
+                onBlur={field.onBlur}
+                options={budgetOptions}
+                placeholder="Select range"
+              />
+            )}
+          />
         </div>
       </div>
 
@@ -262,6 +306,7 @@ function FullForm({
     register,
     handleSubmit,
     reset,
+    control,
     formState: { errors },
   } = useForm<CampaignInquiryInput>({
     resolver: zodResolver(campaignInquirySchema),
@@ -359,43 +404,72 @@ function FullForm({
         </div>
         <div>
           <label className={labelClass}>I am a *</label>
-          <select className={inputClass} {...register("role")}>
-            <option value="brand">Brand</option>
-            <option value="creator">Creator</option>
-            <option value="agency">Agency Partner</option>
-          </select>
+          <Controller
+            name="role"
+            control={control}
+            render={({ field }) => (
+              <FormSelect
+                value={field.value}
+                onChange={field.onChange}
+                onBlur={field.onBlur}
+                options={roleOptionsCompact}
+                placeholder="Select role"
+              />
+            )}
+          />
         </div>
       </div>
 
       <div className={compact ? "space-y-4" : "grid grid-cols-1 md:grid-cols-2 gap-4"}>
         <div>
           <label className={labelClass}>Service Required</label>
-          <select className={inputClass} {...register("service")}>
-            <option value="">Select a service</option>
-            {services.map((s) => (
-              <option key={s} value={s}>{s}</option>
-            ))}
-          </select>
+          <Controller
+            name="service"
+            control={control}
+            render={({ field }) => (
+              <FormSelect
+                value={field.value || ""}
+                onChange={field.onChange}
+                onBlur={field.onBlur}
+                options={serviceOptions}
+                placeholder="Select a service"
+              />
+            )}
+          />
         </div>
         <div>
-          <label className={labelClass}>Budget Range (PKR)</label>
-          <select className={inputClass} {...register("budget")}>
-            <option value="">Select budget</option>
-            {budgets.map((b) => (
-              <option key={b} value={b}>{b}</option>
-            ))}
-          </select>
+          <label className={labelClass}>Budget (PKR)</label>
+          <Controller
+            name="budget"
+            control={control}
+            render={({ field }) => (
+              <FormSelect
+                value={field.value || ""}
+                onChange={field.onChange}
+                onBlur={field.onBlur}
+                options={budgetOptions}
+                placeholder="Select range"
+              />
+            )}
+          />
         </div>
       </div>
 
       <div>
         <label className={labelClass}>Campaign Timeline</label>
-        <select className={inputClass} {...register("timeline")}>
-          <option value="">Select timeline</option>
-          {timelines.map((t) => (
-            <option key={t} value={t}>{t}</option>
-          ))}
-        </select>
+        <Controller
+          name="timeline"
+          control={control}
+          render={({ field }) => (
+            <FormSelect
+              value={field.value || ""}
+              onChange={field.onChange}
+              onBlur={field.onBlur}
+              options={timelineOptions}
+              placeholder="Select timeline"
+            />
+          )}
+        />
       </div>
 
       <div>

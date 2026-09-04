@@ -33,7 +33,9 @@ function PlatformBadge({
       href={href}
       target="_blank"
       rel="noopener noreferrer"
-      aria-label={label === "IG" ? "Instagram" : "YouTube"}
+      aria-label={
+        label === "IG" ? "Instagram" : label === "TT" ? "TikTok" : "YouTube"
+      }
       className="flex h-8 w-8 items-center justify-center rounded-lg bg-royal-violet/10 text-[10px] font-bold text-royal-violet transition-colors hover:bg-royal-violet/20"
       onClick={(e) => e.stopPropagation()}
     >
@@ -46,6 +48,7 @@ export function TalentCard({ talent, className }: TalentCardProps) {
   const hasImage = talent.image && talent.image.length > 0;
   const platforms = [
     talent.platforms.instagram && { label: "IG", href: talent.platforms.instagram },
+    talent.platforms.tiktok && { label: "TT", href: talent.platforms.tiktok },
     talent.platforms.youtube && { label: "YT", href: talent.platforms.youtube },
   ].filter(Boolean) as { label: string; href: string }[];
 

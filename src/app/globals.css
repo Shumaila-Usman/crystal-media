@@ -60,6 +60,15 @@ body {
   overflow-x: hidden;
 }
 
+select {
+  color-scheme: dark;
+}
+
+select option {
+  background-color: var(--color-ink-black);
+  color: var(--color-pearl-white);
+}
+
 h1,
 h2,
 h3,

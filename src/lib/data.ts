@@ -33,6 +33,33 @@ function toPlain<T>(doc: T): T {
   return JSON.parse(JSON.stringify(doc));
 }
 
+const seedTalentBySlug = new Map(seedTalents.map((talent) => [talent.slug, talent]));
+
+function applySeedTalentOverlay(talent: TalentData): TalentData {
+  const seed = seedTalentBySlug.get(talent.slug);
+  if (!seed) return talent;
+
+  return {
+    ...talent,
+    name: seed.name,
+    niche: seed.niche,
+    city: seed.city,
+    bio: seed.bio,
+    specialties: seed.specialties,
+    image: seed.image,
+    platforms: seed.platforms,
+    metrics: seed.metrics,
+    totalFollowers: seed.totalFollowers,
+    engagementRate: seed.engagementRate,
+    featured: seed.featured,
+    sortOrder: seed.sortOrder,
+  };
+}
+
+function applySeedTalentOverlays(talents: TalentData[]): TalentData[] {
+  return talents.map(applySeedTalentOverlay);
+}
+
 export async function getTalents(filters?: {
   featured?: boolean;
   niche?: string;
@@ -86,7 +113,8 @@ export async function getTalents(filters?: {
       ]);
 
       if (docs.length > 0) {
-        return { talents: toPlain(docs) as TalentData[], total };
+        const talents = applySeedTalentOverlays(toPlain(docs) as TalentData[]);
+        return { talents, total };
       }
     } catch (e) {
       console.error("Error fetching talents:", e);
@@ -141,7 +169,7 @@ export async function getTalentBySlug(slug: string): Promise<TalentData | null> 
   if (db) {
     try {
       const doc = await Talent.findOne({ slug, published: true }).lean();
-      if (doc) return toPlain(doc) as TalentData;
+      if (doc) return applySeedTalentOverlay(toPlain(doc) as TalentData);
     } catch (e) {
       console.error("Error fetching talent:", e);
     }
@@ -172,7 +200,10 @@ export async function getBrands(): Promise<BrandData[]> {
   if (db) {
     try {
       const docs = await Brand.find({ active: true }).sort({ sortOrder: 1 }).lean();
-      if (docs.length > 0) return toPlain(docs) as BrandData[];
+      if (docs.length > 0) {
+        const brands = toPlain(docs) as BrandData[];
+        if (brands.some((brand) => brand.logo)) return brands;
+      }
     } catch (e) {
       console.error("Error fetching brands:", e);
     }

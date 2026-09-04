@@ -1,22 +1,42 @@
 import { getBrands } from "@/lib/data";
+import type { BrandData } from "@/types";
 import { Reveal } from "@/components/motion/Reveal";
+
+function BrandPill({ brand }: { brand: BrandData }) {
+  return (
+    <div className="mx-2.5 inline-flex shrink-0 items-center gap-3 rounded-full border border-ink-black/10 bg-white px-4 py-2.5 shadow-[0_1px_4px_rgba(0,0,0,0.04)] sm:mx-3 sm:px-5 sm:py-3">
+      <span className="flex h-9 w-9 shrink-0 items-center justify-center overflow-hidden rounded-lg border border-ink-black/[0.06] bg-white sm:h-10 sm:w-10">
+        {brand.logo ? (
+          <img
+            src={brand.logo}
+            alt=""
+            className="h-full w-full object-contain p-1"
+          />
+        ) : (
+          <span className="text-xs font-bold text-royal-violet">
+            {brand.name.charAt(0)}
+          </span>
+        )}
+      </span>
+      <span className="whitespace-nowrap pr-1 text-sm font-medium text-ink-black sm:text-[15px]">
+        {brand.name}
+      </span>
+    </div>
+  );
+}
 
 export async function BrandMarqueeSection() {
   const brands = await getBrands();
-  const row1 = [...brands, ...brands];
-  const row2 = [...brands.slice().reverse(), ...brands.slice().reverse()];
+  const marqueeBrands = [...brands, ...brands];
 
   return (
-    <section className="section-padding bg-soft-lavender text-ink-black overflow-hidden">
-      <div className="container-xl relative z-20 mb-12 sm:mb-16">
+    <section className="section-padding overflow-hidden bg-soft-lavender text-ink-black">
+      <div className="container-xl relative z-20 mb-10 sm:mb-12">
         <Reveal>
-          <p className="text-xs font-semibold tracking-[0.25em] uppercase text-royal-violet mb-4 text-center">
-            Brand Partners
-          </p>
-          <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-bold text-center leading-tight">
-            Trusted by leading brands
+          <h2 className="font-display text-3xl sm:text-4xl lg:text-[2.75rem] font-bold text-center leading-tight text-royal-violet">
+            Brands
           </h2>
-          <p className="text-ink-black/60 text-center max-w-2xl mx-auto mt-4 leading-relaxed">
+          <p className="mx-auto mt-4 max-w-2xl text-center text-sm leading-relaxed text-ink-black/60 sm:text-base">
             From beauty giants to tech disruptors — brands choose Crystal Media
             to connect with creators who drive real results.
           </p>
@@ -25,46 +45,24 @@ export async function BrandMarqueeSection() {
 
       {brands.length === 0 ? (
         <div className="container-xl">
-          <p className="text-center text-ink-black/40 text-sm py-8">
+          <p className="py-8 text-center text-sm text-ink-black/40">
             No brands yet — add them from the dashboard.
           </p>
         </div>
       ) : (
-        <div className="relative z-10 mt-2 space-y-6">
-          <div className="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-soft-lavender to-transparent z-10 pointer-events-none" />
-          <div className="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-soft-lavender to-transparent z-10 pointer-events-none" />
+        <div className="relative z-10 space-y-4 sm:space-y-5">
+          <div className="pointer-events-none absolute bottom-0 left-0 top-0 z-10 w-16 bg-gradient-to-r from-soft-lavender to-transparent sm:w-24" />
+          <div className="pointer-events-none absolute bottom-0 right-0 top-0 z-10 w-16 bg-gradient-to-l from-soft-lavender to-transparent sm:w-24" />
 
-          <div className="marquee-track">
-            {row1.map((brand, i) => (
-              <div
-                key={`r1-${brand._id}-${i}`}
-                className="flex items-center justify-center mx-8 px-8 py-4 min-w-[180px] h-20 rounded-[18px] border border-ink-black/5 bg-white/60 hover:bg-white transition-all duration-300 group"
-              >
-                {brand.logo ? (
-                  <img src={brand.logo} alt={brand.name} className="max-h-10 max-w-[120px] object-contain grayscale group-hover:grayscale-0 transition-all" />
-                ) : (
-                  <span className="font-display font-semibold text-ink-black/40 group-hover:text-royal-violet transition-colors text-sm tracking-wide">
-                    {brand.name}
-                  </span>
-                )}
-              </div>
+          <div className="marquee-track py-1">
+            {marqueeBrands.map((brand, i) => (
+              <BrandPill key={`r1-${brand._id ?? brand.name}-${i}`} brand={brand} />
             ))}
           </div>
 
-          <div className="marquee-track marquee-track-reverse">
-            {row2.map((brand, i) => (
-              <div
-                key={`r2-${brand._id}-${i}`}
-                className="flex items-center justify-center mx-8 px-8 py-4 min-w-[180px] h-20 rounded-[18px] border border-ink-black/5 bg-white/60 hover:bg-white transition-all duration-300 group"
-              >
-                {brand.logo ? (
-                  <img src={brand.logo} alt={brand.name} className="max-h-10 max-w-[120px] object-contain grayscale group-hover:grayscale-0 transition-all" />
-                ) : (
-                  <span className="font-display font-semibold text-ink-black/40 group-hover:text-royal-violet transition-colors text-sm tracking-wide">
-                    {brand.name}
-                  </span>
-                )}
-              </div>
+          <div className="marquee-track marquee-track-reverse py-1">
+            {marqueeBrands.map((brand, i) => (
+              <BrandPill key={`r2-${brand._id ?? brand.name}-${i}`} brand={brand} />
             ))}
           </div>
         </div>
