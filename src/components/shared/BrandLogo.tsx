@@ -12,10 +12,10 @@ interface BrandLogoProps {
 }
 
 const sizeClasses = {
-  sm: "h-10 w-[108px]",
-  md: "h-14 w-[150px]",
-  lg: "h-[4.5rem] w-[195px]",
-  xl: "h-20 w-[220px]",
+  sm: "h-11 w-[118px]",
+  md: "h-16 w-[172px]",
+  lg: "h-[5.25rem] w-[228px]",
+  xl: "h-24 w-[264px]",
 };
 
 export function BrandLogo({ className, size = "md" }: BrandLogoProps) {
@@ -31,7 +31,7 @@ export function BrandLogo({ className, size = "md" }: BrandLogoProps) {
         fill
         className="object-contain object-left"
         priority
-        sizes="(max-width: 640px) 150px, 220px"
+        sizes="(max-width: 640px) 200px, 300px"
       />
     </Link>
   );
