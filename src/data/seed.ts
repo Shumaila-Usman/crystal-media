@@ -138,7 +138,7 @@ export const seedTalents: TalentData[] = [
     city: "Karachi",
     bio: "Hiba curates aspirational drama and lifestyle content for premium fashion and lifestyle brand partnerships.",
     specialties: ["Drama", "Fashion", "Lifestyle"],
-    image: "/talents/hiba-bukhari.png",
+    image: "/talents/hiba-bukhari.webp",
     gallery: [],
     platforms: { instagram: "https://www.instagram.com/ihibaqadir__/" },
     metrics: {
