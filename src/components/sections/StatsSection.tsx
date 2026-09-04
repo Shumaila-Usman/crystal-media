@@ -16,7 +16,7 @@ export async function StatsSection() {
     {
       label: "Client Retention Rate",
       value: stats.repeatBrandPartnerships ?? 0,
-      suffix: "%",
+      suffix: "%+",
     },
   ];
 

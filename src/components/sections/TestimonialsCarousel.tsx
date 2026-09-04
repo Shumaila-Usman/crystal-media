@@ -115,18 +115,6 @@ export function TestimonialsCarousel({
               >
                 <ChevronLeft size={18} />
               </button>
-              <div className="flex gap-2">
-                {testimonials.map((_, i) => (
-                  <button
-                    key={i}
-                    onClick={() => setCurrent(i)}
-                    className={`w-3 h-3 sm:w-2.5 sm:h-2.5 rounded-full transition-colors p-2 -m-2 touch-target ${
-                      i === current ? "bg-royal-violet" : "bg-ink-black/20"
-                    }`}
-                    aria-label={`Go to testimonial ${i + 1}`}
-                  />
-                ))}
-              </div>
               <button
                 onClick={next}
                 className="w-11 h-11 rounded-full border border-ink-black/10 flex items-center justify-center hover:bg-ink-black/5 transition-colors touch-target"

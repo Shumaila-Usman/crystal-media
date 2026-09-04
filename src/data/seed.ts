@@ -700,7 +700,12 @@ export const seedSettings: SiteSettingsData = {
   locationKarachi: "Karachi, Pakistan",
   businessHours: "Mon – Sat, 10:00 AM – 7:00 PM PKT",
   responseTime: "We respond within 24–48 business hours.",
-  stats: {},
+  stats: {
+    campaignsDelivered: 500,
+    creatorsRepresented: 100,
+    combinedAudienceReach: 30,
+    repeatBrandPartnerships: 70,
+  },
   defaultSeoTitle:
     "Crystal Media | Luxury Influencer Marketing & PR Agency Pakistan",
   defaultSeoDescription:

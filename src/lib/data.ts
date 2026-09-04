@@ -379,5 +379,19 @@ export async function getSiteSettings(): Promise<SiteSettingsData> {
       settings.receiverEmail ||
       process.env.CONTACT_RECEIVER_EMAIL ||
       seedSettings.receiverEmail,
+    stats: {
+      campaignsDelivered:
+        settings.stats?.campaignsDelivered ||
+        seedSettings.stats.campaignsDelivered,
+      creatorsRepresented:
+        settings.stats?.creatorsRepresented ||
+        seedSettings.stats.creatorsRepresented,
+      combinedAudienceReach:
+        settings.stats?.combinedAudienceReach ||
+        seedSettings.stats.combinedAudienceReach,
+      repeatBrandPartnerships:
+        settings.stats?.repeatBrandPartnerships ||
+        seedSettings.stats.repeatBrandPartnerships,
+    },
   };
 }
