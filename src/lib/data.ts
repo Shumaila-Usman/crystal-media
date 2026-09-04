@@ -371,5 +371,13 @@ export async function getSiteSettings(): Promise<SiteSettingsData> {
       settings.instagramUrl ||
       process.env.NEXT_PUBLIC_INSTAGRAM_URL ||
       seedSettings.instagramUrl,
+    contactEmail:
+      settings.contactEmail ||
+      process.env.CONTACT_RECEIVER_EMAIL ||
+      seedSettings.contactEmail,
+    receiverEmail:
+      settings.receiverEmail ||
+      process.env.CONTACT_RECEIVER_EMAIL ||
+      seedSettings.receiverEmail,
   };
 }

@@ -685,8 +685,8 @@ export const seedSettings: SiteSettingsData = {
   tagline: "Luxury Influencer Marketing & PR Agency",
   description:
     "Crystal Media connects premium brands with culturally relevant creators through strategy-led public relations, talent management, and high-impact influencer campaigns across Pakistan.",
-  contactEmail: "",
-  receiverEmail: "",
+  contactEmail: "crystalmediacollaborative5@gmail.com",
+  receiverEmail: "crystalmediacollaborative5@gmail.com",
   whatsappNumber: process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "923162981050",
   phone: "+92 316 2981050",
   instagramUrl:
