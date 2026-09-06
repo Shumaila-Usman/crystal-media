@@ -70,7 +70,8 @@ interface CampaignFormProps {
   selectedCreator?: string;
   selectedCreatorName?: string;
   compact?: boolean;
-  variant?: "full" | "homepage";
+  variant?: "full" | "homepage" | "sidebar";
+  defaultService?: string;
   className?: string;
 }
 
@@ -104,15 +105,19 @@ export function CampaignInquiryForm({
   selectedCreatorName,
   compact = false,
   variant = "full",
+  defaultService,
   className,
 }: CampaignFormProps) {
   const isHomepage = variant === "homepage";
+  const isSidebar = variant === "sidebar";
   const defaultMessage = useMemo(
     () =>
       selectedCreatorName
         ? `I'd like to book ${selectedCreatorName} for a campaign.`
-        : "",
-    [selectedCreatorName]
+        : defaultService
+          ? `I'm interested in ${defaultService}.`
+          : "",
+    [selectedCreatorName, defaultService]
   );
 
   if (isHomepage) {
@@ -126,12 +131,25 @@ export function CampaignInquiryForm({
     );
   }
 
+  if (isSidebar) {
+    return (
+      <SidebarForm
+        className={className}
+        selectedCreator={selectedCreator}
+        selectedCreatorName={selectedCreatorName}
+        defaultService={defaultService}
+        defaultMessage={defaultMessage}
+      />
+    );
+  }
+
   return (
     <FullForm
       className={className}
       compact={compact}
       selectedCreator={selectedCreator}
       selectedCreatorName={selectedCreatorName}
+      defaultService={defaultService}
     />
   );
 }
@@ -292,11 +310,13 @@ function FullForm({
   selectedCreator,
   selectedCreatorName,
   compact,
+  defaultService,
   className,
 }: {
   selectedCreator?: string;
   selectedCreatorName?: string;
   compact?: boolean;
+  defaultService?: string;
   className?: string;
 }) {
   const consentId = useId();
@@ -313,6 +333,7 @@ function FullForm({
     defaultValues: {
       role: "brand",
       selectedTalent: selectedCreator || "",
+      service: defaultService || "",
       consent: undefined,
     },
   });
@@ -504,6 +525,168 @@ function FullForm({
 
       <Button type="submit" loading={status === "loading"} className="w-full">
         Submit inquiry
+      </Button>
+    </form>
+  );
+}
+
+function SidebarForm({
+  selectedCreator,
+  selectedCreatorName,
+  defaultService,
+  defaultMessage,
+  className,
+}: {
+  selectedCreator?: string;
+  selectedCreatorName?: string;
+  defaultService?: string;
+  defaultMessage: string;
+  className?: string;
+}) {
+  const consentId = useId();
+  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+
+  const {
+    register,
+    handleSubmit,
+    reset,
+    control,
+    formState: { errors },
+  } = useForm<CampaignInquiryInput>({
+    resolver: zodResolver(campaignInquirySchema),
+    defaultValues: {
+      role: "brand",
+      selectedTalent: selectedCreator || "",
+      service: defaultService || "",
+      message: defaultMessage,
+      consent: undefined,
+    },
+  });
+
+  const onSubmit = async (data: CampaignInquiryInput) => {
+    if (data.honeypot) return;
+    setStatus("loading");
+
+    try {
+      const res = await fetch("/api/inquiries", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          ...data,
+          type: "campaign",
+          selectedTalentName: selectedCreatorName,
+        }),
+      });
+
+      if (!res.ok) {
+        const err = await res.json();
+        throw new Error(err.error || "Submission failed");
+      }
+
+      setStatus("success");
+      toast.success("Inquiry submitted! We'll be in touch soon.");
+      reset({
+        role: "brand",
+        selectedTalent: selectedCreator || "",
+        service: defaultService || "",
+        message: defaultMessage,
+      });
+    } catch (err) {
+      setStatus("error");
+      toast.error(err instanceof Error ? err.message : "Something went wrong");
+    }
+  };
+
+  if (status === "success") {
+    return (
+      <SuccessState
+        className={className}
+        onReset={() => setStatus("idle")}
+      />
+    );
+  }
+
+  const inputClass =
+    "w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-pearl-white text-sm placeholder:text-muted-text/50 focus:outline-none focus:border-electric-purple/50 transition-colors";
+  const labelClass = "block text-xs font-medium text-pearl-white/70 mb-1.5";
+  const errorClass = "text-warm-coral text-xs mt-1";
+
+  return (
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className={cn("space-y-4", className)}
+    >
+      <input type="text" {...register("honeypot")} className="hidden" tabIndex={-1} autoComplete="off" />
+      <input type="hidden" {...register("selectedTalent")} />
+      <input type="hidden" {...register("service")} />
+
+      <div>
+        <label className={labelClass}>Full name</label>
+        <input className={inputClass} placeholder="Your name" {...register("fullName")} />
+        {errors.fullName && <p className={errorClass}>{errors.fullName.message}</p>}
+      </div>
+
+      <div>
+        <label className={labelClass}>Email</label>
+        <input className={inputClass} type="email" placeholder="you@brand.com" {...register("email")} />
+        {errors.email && <p className={errorClass}>{errors.email.message}</p>}
+      </div>
+
+      <div>
+        <label className={labelClass}>Phone / WhatsApp</label>
+        <input className={inputClass} placeholder="+92 3XX XXXXXXX" {...register("phone")} />
+        {errors.phone && <p className={errorClass}>{errors.phone.message}</p>}
+      </div>
+
+      <div>
+        <label className={labelClass}>I am a</label>
+        <Controller
+          name="role"
+          control={control}
+          render={({ field }) => (
+            <FormSelect
+              value={field.value}
+              onChange={field.onChange}
+              onBlur={field.onBlur}
+              options={roleOptionsCompact}
+              placeholder="Select role"
+            />
+          )}
+        />
+      </div>
+
+      <div>
+        <label className={labelClass}>Tell us about your project</label>
+        <textarea
+          className={cn(inputClass, "min-h-[110px] resize-y")}
+          placeholder="Campaign goals, timeline, platforms..."
+          {...register("message")}
+        />
+        {errors.message && <p className={errorClass}>{errors.message.message}</p>}
+      </div>
+
+      <div className="flex items-start gap-3">
+        <input
+          type="checkbox"
+          id={consentId}
+          className="mt-0.5 accent-electric-purple min-h-[18px] min-w-[18px] shrink-0"
+          {...register("consent")}
+        />
+        <label htmlFor={consentId} className="text-xs leading-relaxed text-muted-text">
+          I agree to Crystal Media&apos;s privacy policy and consent to being contacted.
+        </label>
+      </div>
+      {errors.consent && <p className={errorClass}>{errors.consent.message}</p>}
+
+      {status === "error" && (
+        <div className="flex items-center gap-2 text-warm-coral text-sm">
+          <AlertCircle size={16} />
+          Submission failed. Please try again.
+        </div>
+      )}
+
+      <Button type="submit" loading={status === "loading"} className="w-full min-h-[48px]">
+        Send message
       </Button>
     </form>
   );
