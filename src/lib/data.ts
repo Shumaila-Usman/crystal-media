@@ -77,51 +77,21 @@ export async function getTalents(filters?: {
 
   if (db) {
     try {
-      const query: Record<string, unknown> = { published: true };
-      if (filters?.featured) query.featured = true;
-      if (filters?.niche) query.niche = new RegExp(filters.niche, "i");
-      if (filters?.city) query.city = new RegExp(filters.city, "i");
-      if (filters?.search) {
-        query.$or = [
-          { name: new RegExp(filters.search, "i") },
-          { niche: new RegExp(filters.search, "i") },
-          { city: new RegExp(filters.search, "i") },
-        ];
-      }
-      if (filters?.minFollowers)
-        query.totalFollowers = { $gte: filters.minFollowers };
-      if (filters?.maxFollowers) {
-        query.totalFollowers = {
-          ...(query.totalFollowers as object),
-          $lte: filters.maxFollowers,
-        };
-      }
-
-      let sortQuery: Record<string, 1 | -1> = { sortOrder: 1 };
-      if (filters?.sort === "followers") sortQuery = { totalFollowers: -1 };
-      if (filters?.sort === "engagement") sortQuery = { engagementRate: -1 };
-      if (filters?.sort === "name") sortQuery = { name: 1 };
-      if (filters?.sort === "newest") sortQuery = { createdAt: -1 };
-
-      const page = filters?.page || 1;
-      const limit = filters?.limit || 12;
-      const skip = (page - 1) * limit;
-
-      const [docs, total] = await Promise.all([
-        Talent.find(query).sort(sortQuery).skip(skip).limit(limit).lean(),
-        Talent.countDocuments(query),
-      ]);
-
+      const docs = await Talent.find({ published: true }).sort({ sortOrder: 1 }).lean();
       if (docs.length > 0) {
-        const talents = applySeedTalentOverlays(toPlain(docs) as TalentData[]);
-        return { talents, total };
+        const dbTalents = applySeedTalentOverlays(toPlain(docs) as TalentData[]);
+        const dbSlugs = new Set(dbTalents.map((t) => t.slug));
+        talents = [
+          ...dbTalents,
+          ...seedTalents.filter((t) => t.published && !dbSlugs.has(t.slug)),
+        ];
       }
     } catch (e) {
       console.error("Error fetching talents:", e);
     }
   }
 
-  talents = [...seedTalents];
+  if (talents.length === 0) talents = [...seedTalents];
   if (filters?.featured) talents = talents.filter((t) => t.featured);
   if (filters?.search) {
     const s = filters.search.toLowerCase();
@@ -153,10 +123,11 @@ export async function getTalents(filters?: {
 
   if (filters?.sort === "followers")
     talents.sort((a, b) => b.totalFollowers - a.totalFollowers);
-  if (filters?.sort === "engagement")
+  else if (filters?.sort === "engagement")
     talents.sort((a, b) => b.engagementRate - a.engagementRate);
-  if (filters?.sort === "name")
+  else if (filters?.sort === "name")
     talents.sort((a, b) => a.name.localeCompare(b.name));
+  else talents.sort((a, b) => a.sortOrder - b.sortOrder);
 
   const page = filters?.page || 1;
   const limit = filters?.limit || 12;

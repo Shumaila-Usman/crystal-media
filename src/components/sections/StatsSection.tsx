@@ -23,6 +23,14 @@ export async function StatsSection() {
   return (
     <section className="section-padding bg-midnight-plum border-y border-white/5">
       <div className="container-xl">
+        <Reveal>
+          <p className="mb-3 text-center text-xs font-semibold tracking-[0.25em] uppercase text-electric-purple">
+            Our impact
+          </p>
+          <h2 className="font-display text-center text-2xl sm:text-3xl font-bold mb-10 sm:mb-12">
+            Numbers that speak for themselves
+          </h2>
+        </Reveal>
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
           {items.map((item, i) => (
             <Reveal key={item.label} delay={i * 0.1}>

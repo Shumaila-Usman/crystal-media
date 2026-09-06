@@ -8,6 +8,7 @@ import { ProcessSection } from "@/components/sections/ProcessSection";
 import { StatsSection } from "@/components/sections/StatsSection";
 import { TestimonialsCarousel } from "@/components/sections/TestimonialsCarousel";
 import { BlogPreviewSection } from "@/components/sections/BlogPreviewSection";
+import { CTASection } from "@/components/sections/CTASection";
 import { FAQSection } from "@/components/sections/FAQSection";
 import {
   getSiteSettings,
@@ -69,6 +70,7 @@ export default async function HomePage({ searchParams }: HomePageProps) {
       <StatsSection />
       <TestimonialsCarousel testimonials={testimonials} />
       <BlogPreviewSection />
+      <CTASection />
       <FAQSection faqs={faqs} />
     </>
   );

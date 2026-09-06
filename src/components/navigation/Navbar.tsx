@@ -86,7 +86,7 @@ export function Navbar({ whatsappNumber }: { whatsappNumber?: string }) {
       <div className="container-xl">
         <div className="flex items-center justify-between gap-2 sm:gap-3 md:grid md:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] md:items-center md:gap-6 lg:gap-8">
           <div className="min-w-0 shrink justify-self-start">
-            <BrandLogo size="xl" className="h-[4.75rem] w-[240px] sm:h-24 sm:w-[264px]" />
+            <BrandLogo size="lg" className="h-12 w-[148px] sm:h-[4.5rem] sm:w-[210px] md:h-24 md:w-[264px]" />
           </div>
 
           <nav
@@ -164,7 +164,7 @@ export function Navbar({ whatsappNumber }: { whatsappNumber?: string }) {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="fixed inset-0 top-[56px] z-40 bg-ink-black/60 backdrop-blur-sm md:hidden"
+              className="fixed inset-0 top-[60px] sm:top-[72px] z-40 bg-ink-black/60 backdrop-blur-sm md:hidden"
               aria-label="Close menu"
               onClick={() => setMobileOpen(false)}
             />

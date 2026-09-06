@@ -116,7 +116,7 @@ export function HeroSection({
                   message="Hi Crystal Media, I'd like to discuss a campaign."
                   label="Chat on WhatsApp"
                   variant="outline"
-                  className="w-full sm:w-auto"
+                  className="hidden md:inline-flex w-full sm:w-auto"
                 />
               )}
             </div>
@@ -142,13 +142,13 @@ export function HeroSection({
             initial={{ opacity: 0, y: 32 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.9, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
-            className="w-full min-w-0 lg:max-w-xl lg:justify-self-end"
+            className="w-full min-w-0 lg:max-w-xl lg:justify-self-end lg:sticky lg:top-28"
           >
             <CampaignInquiryForm
               variant="full"
               selectedCreator={creatorSlug}
               selectedCreatorName={resolvedName}
-              className="shadow-[0_24px_80px_rgba(0,0,0,0.45)] max-h-none"
+              className="shadow-[0_24px_80px_rgba(0,0,0,0.45)] max-h-none border border-white/[0.06]"
             />
           </motion.div>
         </div>

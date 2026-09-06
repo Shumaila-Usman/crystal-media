@@ -53,7 +53,9 @@ export function TestimonialsCarousel({
             <h2 className="font-display text-3xl sm:text-4xl font-bold text-center mb-8">
               Loved by brands &amp; creators
             </h2>
-            <p className="text-center text-ink-black/40 text-sm">Loading reviews…</p>
+            <p className="text-center text-ink-black/40 text-sm">
+              Client reviews coming soon.
+            </p>
           </Reveal>
         </div>
       </section>

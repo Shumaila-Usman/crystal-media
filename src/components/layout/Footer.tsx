@@ -20,7 +20,7 @@ export function Footer({ services, settings }: FooterProps) {
       <div className="container-xl py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
           <div className="lg:col-span-1">
-            <BrandLogo size="xl" className="mb-4 h-24 w-[264px] sm:h-28 sm:w-[300px]" />
+            <BrandLogo size="lg" className="mb-5 h-16 w-[185px] sm:h-20 sm:w-[230px]" />
             <p className="text-muted-text text-sm leading-relaxed max-w-xs">
               {settings.description ||
                 "Premium influencer marketing, public relations, and talent management across Pakistan."}

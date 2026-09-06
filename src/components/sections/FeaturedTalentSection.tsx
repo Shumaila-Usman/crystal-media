@@ -5,7 +5,7 @@ import { TalentCard } from "@/components/talent/TalentCard";
 import { ArrowRight } from "lucide-react";
 
 export async function FeaturedTalentSection() {
-  const { talents } = await getTalents({ featured: true, limit: 9 });
+  const { talents } = await getTalents({ featured: true, limit: 6 });
 
   return (
     <section className="section-padding bg-pearl-white text-ink-black">

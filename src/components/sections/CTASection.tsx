@@ -25,9 +25,14 @@ export async function CTASection() {
           <p className="text-muted-text max-w-lg mx-auto mb-8">
             Let&apos;s craft something extraordinary together. Start with a brief or reach out directly.
           </p>
-          <div className="flex flex-wrap items-center justify-center gap-4">
-            <Link href="/contact">
+          <div className="flex flex-col sm:flex-row flex-wrap items-center justify-center gap-3 sm:gap-4">
+            <Link href="/#contact">
               <Button size="lg">Start a Campaign</Button>
+            </Link>
+            <Link href="/talents">
+              <Button variant="secondary" size="lg">
+                Explore Talent
+              </Button>
             </Link>
             {whatsapp && (
               <a
