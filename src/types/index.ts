@@ -67,6 +67,7 @@ export interface ServiceData {
   deliverables: string[];
   process: { step: string; description: string }[];
   idealClient: string;
+  platforms?: { name: string; services: string }[];
   faqs: { question: string; answer: string }[];
   published: boolean;
   sortOrder: number;

@@ -704,37 +704,91 @@ export const seedServices: ServiceData[] = [
     title: "Luxury Influencer Marketing",
     slug: "influencer-marketing",
     shortDescription:
-      "Strategic creator partnerships that elevate your brand with culturally relevant, high-impact content.",
+      "Strategic creator partnerships that elevate your brand with culturally relevant, high-impact content across Instagram, TikTok, and YouTube.",
     description:
-      "We connect premium brands with the right creators to deliver campaigns that feel authentic, aspirational, and measurable.",
+      "We connect premium brands with the right creators for campaigns that feel authentic and drive real results. Crystal Media handles creator selection, briefing, approvals, publishing, and reporting — so you get one team from start to finish.",
     icon: "crown",
     benefits: [
-      "Curated creator matching",
-      "End-to-end campaign management",
-      "Performance tracking & reporting",
+      "Curated creator matching by niche, city, and audience",
+      "End-to-end campaign management and approvals",
+      "Performance tracking with reach, engagement, and ROI",
+      "Brand-safe content aligned to your visual identity",
+      "Multi-platform execution on Instagram, TikTok, and YouTube",
+      "Dedicated account lead from brief to final report",
     ],
     problems: [
-      "Low-quality creator partnerships",
-      "Inconsistent brand messaging",
-      "Poor campaign ROI",
+      "Low-quality or misaligned creator partnerships",
+      "Inconsistent brand messaging across creators",
+      "Poor campaign ROI and unclear reporting",
+      "Slow coordination between brand, agency, and talent",
+      "Difficulty finding creators who truly fit your audience",
     ],
     deliverables: [
-      "Creator shortlist & vetting",
-      "Campaign strategy & briefs",
-      "Content production oversight",
-      "Performance analytics",
+      "Creator shortlist, vetting, and rate negotiation",
+      "Campaign strategy, creative briefs, and timelines",
+      "Content production oversight and approval workflow",
+      "Publishing coordination and hashtag strategy",
+      "Performance analytics and campaign wrap report",
+      "Recommendations for retainer and always-on programs",
     ],
     process: [
-      { step: "Discovery", description: "Understand brand goals and audience." },
-      { step: "Curation", description: "Match creators by fit and quality." },
-      { step: "Execution", description: "Manage production and publishing." },
-      { step: "Analysis", description: "Report results and optimize." },
+      {
+        step: "Discovery",
+        description:
+          "We align on brand goals, target audience, budget, platforms, and success metrics before any outreach begins.",
+      },
+      {
+        step: "Curation",
+        description:
+          "Our team shortlists creators by fit, engagement quality, content style, and past brand performance.",
+      },
+      {
+        step: "Execution",
+        description:
+          "We manage briefs, approvals, posting schedules, and creator communication through launch day.",
+      },
+      {
+        step: "Analysis",
+        description:
+          "You receive a detailed performance report with insights and recommendations for the next campaign.",
+      },
     ],
-    idealClient: "Premium brands seeking authentic creator partnerships in Pakistan.",
+    idealClient:
+      "Premium fashion, beauty, and lifestyle brands in Pakistan that want authentic creator campaigns with clear results.",
+    platforms: [
+      {
+        name: "Instagram",
+        services: "Sponsored Reels, Stories, feed posts, and creator takeovers.",
+      },
+      {
+        name: "TikTok",
+        services: "Creator campaigns, trending content, and product seeding videos.",
+      },
+      {
+        name: "YouTube",
+        services: "Dedicated integrations, Shorts, and long-form brand features.",
+      },
+    ],
     faqs: [
       {
         question: "What platforms do you cover?",
-        answer: "Instagram, YouTube, and emerging platforms relevant to your audience.",
+        answer:
+          "Instagram, TikTok, YouTube, and emerging platforms relevant to your audience. We recommend the right mix based on your category and campaign goals.",
+      },
+      {
+        question: "How do you select creators?",
+        answer:
+          "We evaluate audience demographics, engagement quality, content aesthetic, brand safety, and past campaign performance — not just follower count.",
+      },
+      {
+        question: "What is the typical campaign timeline?",
+        answer:
+          "Most campaigns run 2–6 weeks from brief to final report. Rush timelines are available for product launches and seasonal pushes.",
+      },
+      {
+        question: "Do you handle contracts and payments?",
+        answer:
+          "Yes. We manage creator negotiations, contracts, deliverables, and invoicing so your team has one point of contact.",
       },
     ],
     published: true,
@@ -745,21 +799,88 @@ export const seedServices: ServiceData[] = [
     title: "Public Relations & Brand Positioning",
     slug: "public-relations",
     shortDescription:
-      "Shape how the market perceives your brand through strategic PR, media relations, and narrative building.",
+      "Shape how the market perceives your brand through strategic PR, media relations, influencer seeding, and narrative building.",
     description:
-      "From press releases to media placements, we position your brand as a category leader.",
+      "From press releases to media placements, we help brands get seen and remembered. We combine traditional PR with creator-led amplification so your launch reaches both journalists and social audiences.",
     icon: "megaphone",
-    benefits: ["Media coverage", "Brand narrative", "Crisis management"],
-    problems: ["Low brand visibility", "Weak media presence"],
-    deliverables: ["PR strategy", "Press kits", "Media outreach", "Coverage reports"],
-    process: [
-      { step: "Audit", description: "Assess current brand perception." },
-      { step: "Strategy", description: "Build PR narrative and plan." },
-      { step: "Outreach", description: "Connect with media and influencers." },
-      { step: "Amplify", description: "Maximize coverage impact." },
+    benefits: [
+      "Earned media coverage in digital and print outlets",
+      "Clear brand narrative and messaging framework",
+      "Crisis and reputation management support",
+      "Influencer and media list building",
+      "Press kit and asset development",
+      "Launch-day coordination and follow-up pitching",
     ],
-    idealClient: "Brands launching or repositioning in competitive markets.",
-    faqs: [],
+    problems: [
+      "Low brand visibility in crowded categories",
+      "Weak or inconsistent media presence",
+      "No clear story for journalists or investors",
+      "Launch moments that fail to generate buzz",
+      "Reactive communication without a PR strategy",
+    ],
+    deliverables: [
+      "PR strategy and quarterly communications plan",
+      "Press releases, media kits, and founder profiles",
+      "Media outreach and relationship management",
+      "Coverage tracking and sentiment reporting",
+      "Talking points for interviews and events",
+      "Crisis communication playbook when needed",
+    ],
+    process: [
+      {
+        step: "Audit",
+        description:
+          "We assess current brand perception, past coverage, competitor visibility, and messaging gaps.",
+      },
+      {
+        step: "Strategy",
+        description:
+          "We define your narrative, key messages, target outlets, and a phased PR calendar.",
+      },
+      {
+        step: "Outreach",
+        description:
+          "Our team pitches stories, coordinates interviews, and activates creators for earned amplification.",
+      },
+      {
+        step: "Amplify",
+        description:
+          "We repurpose coverage across social, owned channels, and follow-up campaigns to maximize impact.",
+      },
+    ],
+    idealClient:
+      "Brands launching, repositioning, or growing in Pakistan that need media coverage and a clear public story.",
+    platforms: [
+      {
+        name: "Digital press",
+        services: "Online publications, lifestyle media, and business press placements.",
+      },
+      {
+        name: "Instagram",
+        services: "Creator seeding and social amplification of PR stories and launches.",
+      },
+      {
+        name: "Brand narrative",
+        services: "Press releases, messaging, talking points, and launch communications.",
+      },
+    ],
+    faqs: [
+      {
+        question: "Which media outlets do you work with?",
+        answer:
+          "We maintain relationships across digital publications, lifestyle platforms, business press, and broadcast — tailored to your category and audience.",
+      },
+      {
+        question: "Can PR be combined with influencer campaigns?",
+        answer:
+          "Absolutely. We often integrate creator content with media outreach so launches feel organic and newsworthy at the same time.",
+      },
+      {
+        question: "How do you measure PR success?",
+        answer:
+          "We track coverage volume, outlet quality, message pull-through, share of voice, and downstream traffic or sign-ups where applicable.",
+      },
+    ],
     published: true,
     sortOrder: 2,
   },
@@ -768,21 +889,88 @@ export const seedServices: ServiceData[] = [
     title: "Talent Management",
     slug: "talent-management",
     shortDescription:
-      "Full-service representation for creators seeking premium brand partnerships and career growth.",
+      "Full-service representation for creators seeking premium brand partnerships, career growth, and long-term commercial success.",
     description:
-      "We manage negotiations, contracts, and brand relationships so creators can focus on content.",
+      "We represent creators and manage brand deals, contracts, and payments so talent can focus on content. Crystal Media connects influencers with premium brands across Pakistan.",
     icon: "users",
-    benefits: ["Brand deal negotiation", "Career strategy", "Contract management"],
-    problems: ["Missed opportunities", "Unfair deals", "Brand misalignment"],
-    deliverables: ["Representation", "Deal sourcing", "Contract review", "Career planning"],
-    process: [
-      { step: "Onboarding", description: "Understand creator goals and brand." },
-      { step: "Positioning", description: "Build creator media kit and rate card." },
-      { step: "Sourcing", description: "Match with premium brand opportunities." },
-      { step: "Management", description: "Handle negotiations and deliverables." },
+    benefits: [
+      "Premium brand deal negotiation and sourcing",
+      "Career strategy and personal brand positioning",
+      "Contract review, deliverables, and payment tracking",
+      "Media kit, rate card, and portfolio development",
+      "Exclusivity and category conflict management",
+      "Long-term retainer and ambassador opportunities",
     ],
-    idealClient: "Established creators with 50K+ engaged followers.",
-    faqs: [],
+    problems: [
+      "Missed brand opportunities due to poor visibility",
+      "Unfair rates or one-sided contract terms",
+      "Brand partnerships that hurt audience trust",
+      "No dedicated team to manage inbound requests",
+      "Inconsistent income from ad-hoc collaborations",
+    ],
+    deliverables: [
+      "Exclusive or non-exclusive representation agreement",
+      "Professional media kit and rate card",
+      "Inbound deal filtering and brand vetting",
+      "Contract negotiation and legal coordination",
+      "Campaign deliverable management",
+      "Quarterly career and revenue planning sessions",
+    ],
+    process: [
+      {
+        step: "Onboarding",
+        description:
+          "We understand your content style, audience, goals, category preferences, and commercial expectations.",
+      },
+      {
+        step: "Positioning",
+        description:
+          "We refine your media kit, rate card, and brand narrative for premium partnership conversations.",
+      },
+      {
+        step: "Sourcing",
+        description:
+          "Our team proactively matches you with campaigns, ambassadorships, and events that fit your profile.",
+      },
+      {
+        step: "Management",
+        description:
+          "We handle negotiations, contracts, timelines, approvals, and payments through campaign completion.",
+      },
+    ],
+    idealClient:
+      "Creators with 50K+ engaged followers who want professional representation and better brand deals.",
+    platforms: [
+      {
+        name: "Instagram",
+        services: "Brand deal sourcing, rate negotiation, and campaign deliverable management.",
+      },
+      {
+        name: "TikTok",
+        services: "Partnership matching, brief handling, and content approval support.",
+      },
+      {
+        name: "YouTube",
+        services: "Integration deals, Shorts campaigns, and long-form sponsorship management.",
+      },
+    ],
+    faqs: [
+      {
+        question: "What does representation include?",
+        answer:
+          "Deal sourcing, negotiation, contract management, deliverable tracking, payment follow-up, and ongoing career strategy.",
+      },
+      {
+        question: "Do you take exclusive representation?",
+        answer:
+          "We offer both exclusive and selective non-exclusive models depending on your category and growth stage.",
+      },
+      {
+        question: "How are management fees structured?",
+        answer:
+          "Fees are typically commission-based on closed brand deals. Terms are discussed transparently during onboarding.",
+      },
+    ],
     published: true,
     sortOrder: 3,
   },
@@ -791,21 +979,88 @@ export const seedServices: ServiceData[] = [
     title: "Brand Collaborations & Campaigns",
     slug: "brand-collaborations",
     shortDescription:
-      "Multi-creator campaign orchestration for product launches, seasonal pushes, and brand activations.",
+      "Multi-creator campaign orchestration for product launches, seasonal pushes, Ramadan activations, and brand moments that need scale.",
     description:
-      "We design and execute collaborative campaigns that generate buzz and drive conversions.",
+      "We run multi-creator campaigns for launches, seasonal pushes, and brand moments. One team coordinates every creator, message, and post so your campaign feels unified — not scattered.",
     icon: "handshake",
-    benefits: ["Multi-creator coordination", "Unified messaging", "Scalable reach"],
-    problems: ["Fragmented campaigns", "Inconsistent creative"],
-    deliverables: ["Campaign concept", "Creator roster", "Content calendar", "Launch report"],
-    process: [
-      { step: "Concept", description: "Develop campaign creative direction." },
-      { step: "Assembly", description: "Build the creator roster." },
-      { step: "Production", description: "Coordinate content creation." },
-      { step: "Launch", description: "Execute synchronized publishing." },
+    benefits: [
+      "Multi-creator coordination under one timeline",
+      "Unified messaging and creative direction",
+      "Scalable reach across cities and platforms",
+      "Launch-day synchronization and live monitoring",
+      "Mix of macro reach and micro authenticity",
+      "Post-campaign reporting with creator-level breakdowns",
     ],
-    idealClient: "Brands planning product launches or seasonal campaigns.",
-    faqs: [],
+    problems: [
+      "Fragmented campaigns with inconsistent creative",
+      "Creators posting at different times with mixed messaging",
+      "No central team managing approvals and assets",
+      "Launch moments that underperform despite big spend",
+      "Difficulty scaling beyond a single influencer post",
+    ],
+    deliverables: [
+      "Campaign concept, mood boards, and messaging hierarchy",
+      "Curated creator roster with role definitions",
+      "Content calendar and publishing schedule",
+      "Asset collection, approvals, and brand compliance",
+      "Launch coordination and real-time monitoring",
+      "Wrap report with reach, engagement, and learnings",
+    ],
+    process: [
+      {
+        step: "Concept",
+        description:
+          "We develop the campaign idea, visual direction, hashtags, and creator roles aligned to your KPIs.",
+      },
+      {
+        step: "Assembly",
+        description:
+          "We build a balanced roster — hero creators, support voices, and niche amplifiers.",
+      },
+      {
+        step: "Production",
+        description:
+          "We coordinate briefs, shoots, edits, approvals, and asset delivery ahead of launch.",
+      },
+      {
+        step: "Launch",
+        description:
+          "We execute synchronized publishing, monitor performance live, and optimize in real time.",
+      },
+    ],
+    idealClient:
+      "Brands planning product launches, Ramadan campaigns, or seasonal activations that need multiple creators working together.",
+    platforms: [
+      {
+        name: "Instagram",
+        services: "Multi-creator Reels, Stories, and synchronized launch posts.",
+      },
+      {
+        name: "TikTok",
+        services: "Coordinated creator videos, trends, and campaign hashtags.",
+      },
+      {
+        name: "YouTube",
+        services: "Launch integrations, Shorts, and hero creator features.",
+      },
+    ],
+    faqs: [
+      {
+        question: "How many creators are typically in a campaign?",
+        answer:
+          "Campaigns range from 3 creators for focused launches to 15+ for national activations. We recommend the right scale for your budget and goals.",
+      },
+      {
+        question: "Can you manage both organic and paid amplification?",
+        answer:
+          "Yes. We coordinate creator content with whitelisting, spark ads, and boosted posts where it supports campaign objectives.",
+      },
+      {
+        question: "Do you provide creative direction?",
+        answer:
+          "We deliver campaign concepts, shot lists, talking points, and brand guidelines so every creator stays on-message.",
+      },
+    ],
     published: true,
     sortOrder: 4,
   },
@@ -814,21 +1069,92 @@ export const seedServices: ServiceData[] = [
     title: "Social Media Strategy & Content",
     slug: "social-media-marketing",
     shortDescription:
-      "Data-driven social strategies and content frameworks that build lasting audience connection.",
+      "Social media strategy and content for Instagram, TikTok, YouTube, and Facebook — built to grow your audience and convert followers into customers.",
     description:
-      "From content pillars to posting cadence, we architect social presence that converts.",
+      "We plan, create, and manage your brand's social presence across every major platform. From content calendars and Reels to community engagement and monthly reporting — Crystal Media helps you show up consistently and grow with purpose.",
     icon: "chart",
-    benefits: ["Content strategy", "Platform optimization", "Audience growth"],
-    problems: ["Inconsistent posting", "Low engagement", "No clear strategy"],
-    deliverables: ["Strategy document", "Content calendar", "Creative guidelines", "Monthly reports"],
-    process: [
-      { step: "Audit", description: "Analyze current social performance." },
-      { step: "Strategy", description: "Define pillars and content plan." },
-      { step: "Creation", description: "Produce or guide content." },
-      { step: "Optimize", description: "Iterate based on data." },
+    benefits: [
+      "Clear content strategy with defined pillars",
+      "Platform-specific optimization for Reels, Stories, and Shorts",
+      "Audience growth through consistent, on-brand posting",
+      "Community engagement and comment management guidance",
+      "Monthly performance reviews and iteration",
+      "Integration with influencer and paid media plans",
     ],
-    idealClient: "Brands building or refreshing their social presence.",
-    faqs: [],
+    problems: [
+      "Inconsistent posting and off-brand content",
+      "Low engagement despite regular activity",
+      "No clear strategy — just reactive posting",
+      "Platforms underused (e.g. TikTok ignored, Reels underperforming)",
+      "Social and influencer efforts working in silos",
+    ],
+    deliverables: [
+      "Social audit and competitive landscape review",
+      "Content strategy document with pillars and tone",
+      "Monthly content calendar and format recommendations",
+      "Creative guidelines for in-house and creator teams",
+      "Hashtag, SEO, and discovery optimization plan",
+      "Monthly analytics report with actionable next steps",
+    ],
+    process: [
+      {
+        step: "Audit",
+        description:
+          "We analyze current performance, content mix, audience data, and competitor benchmarks.",
+      },
+      {
+        step: "Strategy",
+        description:
+          "We define pillars, posting cadence, platform priorities, and KPIs for the next quarter.",
+      },
+      {
+        step: "Creation",
+        description:
+          "We produce calendars, briefs, and templates — or guide your team and creators on execution.",
+      },
+      {
+        step: "Optimize",
+        description:
+          "We review monthly data, double down on winners, and refine underperforming formats.",
+      },
+    ],
+    idealClient:
+      "Brands building or refreshing their social presence on Instagram, TikTok, YouTube, or Facebook.",
+    platforms: [
+      {
+        name: "Instagram",
+        services: "Reels, Stories, feed content, captions, hashtags, and community replies.",
+      },
+      {
+        name: "TikTok",
+        services: "Short-form video strategy, trends, posting cadence, and content ideas.",
+      },
+      {
+        name: "YouTube",
+        services: "Shorts planning, long-form content direction, and channel growth support.",
+      },
+      {
+        name: "Facebook",
+        services: "Page content, engagement, and brand presence for wider audiences.",
+      },
+    ],
+    faqs: [
+      {
+        question: "Do you create content or only strategy?",
+        answer:
+          "We offer strategy-only engagements as well as hands-on support through creators, designers, and editors in our network.",
+      },
+      {
+        question: "Which platforms do you specialize in?",
+        answer:
+          "Instagram, TikTok, YouTube, and Facebook — with format-specific guidance for Reels, Stories, Shorts, and long-form.",
+      },
+      {
+        question: "How long before we see results?",
+        answer:
+          "Strategy deliverables land within 2–3 weeks. Meaningful engagement and growth typically build over 60–90 days of consistent execution.",
+      },
+    ],
     published: true,
     sortOrder: 5,
   },
@@ -837,21 +1163,88 @@ export const seedServices: ServiceData[] = [
     title: "Events, Launches & Activations",
     slug: "events-launches",
     shortDescription:
-      "Immersive brand experiences amplified through creator attendance, live content, and PR coverage.",
+      "Immersive brand experiences amplified through creator attendance, live content capture, PR coverage, and post-event reach.",
     description:
-      "We turn launches and events into cultural moments with creator integration and media buzz.",
+      "We turn launches and events into cultural moments with creator attendance, live social coverage, and PR. Crystal Media handles invitations, on-ground content, and the post-event push so your event keeps reaching people after it ends.",
     icon: "sparkles",
-    benefits: ["Event PR", "Creator attendance", "Live content capture"],
-    problems: ["Low event visibility", "Missed content opportunities"],
-    deliverables: ["Event strategy", "Creator invitations", "Live coverage", "Post-event report"],
-    process: [
-      { step: "Planning", description: "Design event experience and goals." },
-      { step: "Activation", description: "Integrate creators and media." },
-      { step: "Coverage", description: "Capture and publish live content." },
-      { step: "Follow-up", description: "Maximize post-event reach." },
+    benefits: [
+      "Event PR and media invitation management",
+      "Curated creator attendance and live coverage",
+      "Professional photo and video content capture",
+      "Real-time social publishing during the event",
+      "Post-event recap content and press follow-up",
+      "Integrated campaign reporting across touchpoints",
     ],
-    idealClient: "Brands hosting launches, pop-ups, or experiential events.",
-    faqs: [],
+    problems: [
+      "Events that look great in-room but fail online",
+      "No creators or media showing up to amplify",
+      "Missed live content opportunities during the event",
+      "Weak post-event reach after the venue lights go off",
+      "Disconnected PR, social, and influencer efforts",
+    ],
+    deliverables: [
+      "Event strategy, run-of-show, and KPI framework",
+      "Creator and media invitation lists with confirmations",
+      "On-ground content team and live posting plan",
+      "Hashtag strategy and UGC amplification",
+      "Post-event recap edits and coverage report",
+      "Recommendations for future activations",
+    ],
+    process: [
+      {
+        step: "Planning",
+        description:
+          "We define event goals, audience, creator tiers, media targets, and content capture requirements.",
+      },
+      {
+        step: "Activation",
+        description:
+          "We confirm creators and press, coordinate arrivals, and prepare live content workflows.",
+      },
+      {
+        step: "Coverage",
+        description:
+          "We capture and publish live Stories, Reels, and press moments throughout the event.",
+      },
+      {
+        step: "Follow-up",
+        description:
+          "We deliver recap content, pitch post-event stories, and report on total reach and engagement.",
+      },
+    ],
+    idealClient:
+      "Brands hosting store openings, launches, pop-ups, or fashion events in Lahore, Karachi, or Islamabad.",
+    platforms: [
+      {
+        name: "Instagram",
+        services: "Live Stories, Reels, creator attendance, and event recap posts.",
+      },
+      {
+        name: "TikTok",
+        services: "On-ground creator videos, behind-the-scenes, and launch moments.",
+      },
+      {
+        name: "Press & PR",
+        services: "Media invitations, press coverage, and post-event story pitching.",
+      },
+    ],
+    faqs: [
+      {
+        question: "Do you handle on-ground production?",
+        answer:
+          "We coordinate photographers, videographers, and creator teams — or work with your existing vendors under one unified plan.",
+      },
+      {
+        question: "Can you invite media as well as creators?",
+        answer:
+          "Yes. Events are strongest when PR and influencer amplification work together. We manage both guest lists.",
+      },
+      {
+        question: "How far in advance should we book?",
+        answer:
+          "We recommend 4–6 weeks for major launches to secure top creators and media. Smaller activations can move faster.",
+      },
+    ],
     published: true,
     sortOrder: 6,
   },

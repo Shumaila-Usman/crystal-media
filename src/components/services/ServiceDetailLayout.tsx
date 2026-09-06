@@ -3,7 +3,6 @@ import { ArrowLeft, ArrowRight } from "lucide-react";
 import { Reveal } from "@/components/motion/Reveal";
 import { CampaignInquiryForm } from "@/components/forms/CampaignInquiryForm";
 import { Button } from "@/components/shared/Button";
-import { FAQSection } from "@/components/sections/FAQSection";
 import { locationServices } from "@/data/seed";
 import type { ServiceData } from "@/types";
 
@@ -38,14 +37,6 @@ export function ServiceDetailLayout({
   const { lead, accent } = splitServiceTitle(service.title);
   const otherServices = allServices.filter((s) => s.slug !== service.slug);
   const defaultService = SERVICE_FORM_VALUES[service.slug] || service.title;
-
-  const faqItems = service.faqs.map((f) => ({
-    _id: f.question,
-    question: f.question,
-    answer: f.answer,
-    sortOrder: 0,
-    published: true,
-  }));
 
   const exploreLinks = [
     { href: "/services", label: "All services" },
@@ -111,107 +102,150 @@ export function ServiceDetailLayout({
       </section>
 
       <section className="section-padding bg-pearl-white text-ink-black">
-        <div className="container-xl">
-          <div className="grid grid-cols-1 gap-12 lg:grid-cols-[minmax(0,1fr)_360px] xl:grid-cols-[minmax(0,1fr)_400px] xl:gap-16">
-            <div className="min-w-0 space-y-12">
-              <Reveal>
-                <div>
-                  <h2 className="font-display mb-4 text-2xl font-bold sm:text-3xl">
-                    What we do
-                  </h2>
-                  <p className="max-w-3xl text-base leading-relaxed text-ink-black/70 sm:text-lg">
-                    {service.description}
-                  </p>
-                </div>
-              </Reveal>
-
-              <Reveal delay={0.05}>
-                <div>
-                  <h2 className="font-display mb-4 text-2xl font-bold sm:text-3xl">
-                    Who we help
-                  </h2>
-                  <p className="max-w-3xl text-base leading-relaxed text-ink-black/70 sm:text-lg">
-                    {service.idealClient}
-                  </p>
-                </div>
-              </Reveal>
-
-              {otherServices.length > 0 && (
-                <Reveal delay={0.1}>
-                  <div>
-                    <h2 className="font-display mb-6 text-2xl font-bold sm:text-3xl">
-                      Choose a focus
-                    </h2>
-                    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                      {otherServices.map((item) => (
-                        <Link
-                          key={item.slug}
-                          href={`/services/${item.slug}`}
-                          className="group flex min-h-[140px] flex-col rounded-[20px] border border-ink-black/8 bg-white p-5 transition-all hover:-translate-y-0.5 hover:border-royal-violet/20 hover:shadow-[0_16px_48px_rgba(78,32,74,0.08)]"
-                        >
-                          <h3 className="font-display mb-3 text-lg font-bold leading-snug group-hover:text-royal-violet">
-                            {item.title}
-                          </h3>
-                          <span className="mt-auto inline-flex items-center gap-1.5 text-sm font-semibold text-royal-violet">
-                            Learn more
-                            <ArrowRight
-                              size={15}
-                              className="transition-transform group-hover:translate-x-0.5"
-                            />
-                          </span>
-                        </Link>
-                      ))}
-                    </div>
-                  </div>
-                </Reveal>
-              )}
+        <div className="container-xl max-w-4xl space-y-12">
+          <Reveal>
+            <div>
+              <h2 className="font-display mb-4 text-2xl font-bold sm:text-3xl">
+                What we do
+              </h2>
+              <p className="text-base leading-relaxed text-ink-black/70 sm:text-lg">
+                {service.description.split("\n\n")[0]}
+              </p>
             </div>
+          </Reveal>
 
-            <aside className="min-w-0 space-y-6 lg:sticky lg:top-28 lg:self-start">
-              <Reveal delay={0.08}>
-                <div
-                  id="service-inquiry"
-                  className="scroll-mt-28 rounded-[24px] bg-ink-black p-6 sm:p-7 text-pearl-white shadow-[0_24px_80px_rgba(0,0,0,0.18)]"
-                >
-                  <h3 className="font-display text-xl font-bold sm:text-2xl">
-                    Talk to Crystal Media
-                  </h3>
-                  <p className="mt-2 text-sm leading-relaxed text-muted-text">
-                    Tell us your brand goals — we reply within 24 hours with a
-                    tailored plan.
-                  </p>
-                  <div className="mt-6">
-                    <CampaignInquiryForm
-                      variant="sidebar"
-                      defaultService={defaultService}
-                    />
-                  </div>
-                </div>
-              </Reveal>
+          <Reveal delay={0.05}>
+            <div>
+              <h2 className="font-display mb-4 text-2xl font-bold sm:text-3xl">
+                Who we help
+              </h2>
+              <p className="text-base leading-relaxed text-ink-black/70 sm:text-lg">
+                {service.idealClient}
+              </p>
+            </div>
+          </Reveal>
 
-              <Reveal delay={0.12}>
-                <div className="rounded-[24px] border border-ink-black/8 bg-white p-6">
-                  <h3 className="font-display mb-4 text-lg font-bold">Explore</h3>
-                  <ul className="space-y-1">
-                    {exploreLinks.map((link) => (
-                      <li key={link.href}>
-                        <Link
-                          href={link.href}
-                          className="block rounded-xl px-3 py-2.5 text-sm font-medium text-ink-black/70 transition-colors hover:bg-soft-lavender/60 hover:text-royal-violet"
-                        >
-                          {link.label}
-                        </Link>
-                      </li>
-                    ))}
-                  </ul>
+          {service.platforms && service.platforms.length > 0 && (
+            <Reveal delay={0.08}>
+              <div>
+                <h2 className="font-display mb-3 text-2xl font-bold sm:text-3xl">
+                  Platforms & services
+                </h2>
+                <p className="mb-6 max-w-2xl text-sm leading-relaxed text-ink-black/55 sm:text-base">
+                  Here is exactly what Crystal Media delivers — platform by platform.
+                </p>
+                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                  {service.platforms.map((platform) => (
+                    <div
+                      key={platform.name}
+                      className="rounded-[20px] border border-ink-black/8 bg-white p-5"
+                    >
+                      <h3 className="font-display mb-2 text-lg font-bold text-royal-violet">
+                        {platform.name}
+                      </h3>
+                      <p className="text-sm leading-relaxed text-ink-black/70 sm:text-base">
+                        {platform.services}
+                      </p>
+                    </div>
+                  ))}
                 </div>
-              </Reveal>
-            </aside>
-          </div>
+              </div>
+            </Reveal>
+          )}
+
+          {service.deliverables.length > 0 && (
+            <Reveal delay={0.1}>
+              <div>
+                <h2 className="font-display mb-4 text-2xl font-bold sm:text-3xl">
+                  What&apos;s included
+                </h2>
+                <ul className="space-y-3">
+                  {service.deliverables.slice(0, 5).map((item) => (
+                    <li
+                      key={item}
+                      className="flex items-start gap-3 text-base leading-relaxed text-ink-black/70"
+                    >
+                      <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-royal-violet" />
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </Reveal>
+          )}
+
+          {otherServices.length > 0 && (
+            <Reveal delay={0.12}>
+              <div>
+                <h2 className="font-display mb-6 text-2xl font-bold sm:text-3xl">
+                  Choose a focus
+                </h2>
+                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                  {otherServices.map((item) => (
+                    <Link
+                      key={item.slug}
+                      href={`/services/${item.slug}`}
+                      className="group flex min-h-[120px] flex-col rounded-[20px] border border-ink-black/8 bg-white p-5 transition-all hover:-translate-y-0.5 hover:border-royal-violet/20 hover:shadow-[0_16px_48px_rgba(78,32,74,0.08)]"
+                    >
+                      <h3 className="font-display mb-2 text-lg font-bold leading-snug group-hover:text-royal-violet">
+                        {item.title}
+                      </h3>
+                      <p className="mb-3 line-clamp-2 text-sm text-ink-black/55">
+                        {item.shortDescription}
+                      </p>
+                      <span className="mt-auto inline-flex items-center gap-1.5 text-sm font-semibold text-royal-violet">
+                        Learn more
+                        <ArrowRight
+                          size={15}
+                          className="transition-transform group-hover:translate-x-0.5"
+                        />
+                      </span>
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            </Reveal>
+          )}
+
+          <Reveal delay={0.14}>
+            <div className="rounded-[20px] border border-ink-black/8 bg-soft-lavender/40 p-6">
+              <h3 className="font-display mb-4 text-lg font-bold">Explore</h3>
+              <div className="flex flex-wrap gap-2">
+                {exploreLinks.map((link) => (
+                  <Link
+                    key={link.href}
+                    href={link.href}
+                    className="rounded-full border border-ink-black/10 bg-white px-4 py-2 text-sm font-medium text-ink-black/70 transition-colors hover:border-royal-violet/30 hover:text-royal-violet"
+                  >
+                    {link.label}
+                  </Link>
+                ))}
+              </div>
+            </div>
+          </Reveal>
         </div>
       </section>
 
-      {faqItems.length > 0 && <FAQSection faqs={faqItems} />}
+      <section
+        id="service-inquiry"
+        className="scroll-mt-24 section-padding bg-ink-black text-pearl-white"
+      >
+        <div className="container-xl max-w-2xl">
+          <Reveal>
+            <h2 className="font-display mb-2 text-2xl font-bold sm:text-3xl">
+              Talk to Crystal Media
+            </h2>
+            <p className="mb-8 text-sm leading-relaxed text-muted-text sm:text-base">
+              Tell us your brand goals — we reply within 24 hours with a tailored
+              plan for {defaultService.toLowerCase()}.
+            </p>
+            <CampaignInquiryForm
+              variant="sidebar"
+              defaultService={defaultService}
+            />
+          </Reveal>
+        </div>
+      </section>
     </>
   );
 }

@@ -33,6 +33,34 @@ function toPlain<T>(doc: T): T {
   return JSON.parse(JSON.stringify(doc));
 }
 
+const seedServiceBySlug = new Map(seedServices.map((service) => [service.slug, service]));
+
+function applySeedServiceOverlay(service: ServiceData): ServiceData {
+  const seed = seedServiceBySlug.get(service.slug);
+  if (!seed) return service;
+
+  return {
+    ...service,
+    title: seed.title,
+    shortDescription: seed.shortDescription,
+    description: seed.description,
+    benefits: seed.benefits,
+    problems: seed.problems,
+    deliverables: seed.deliverables,
+    process: seed.process,
+    idealClient: seed.idealClient,
+    platforms: seed.platforms,
+    faqs: seed.faqs,
+    sortOrder: seed.sortOrder,
+    seoTitle: seed.seoTitle,
+    seoDescription: seed.seoDescription,
+  };
+}
+
+function applySeedServiceOverlays(services: ServiceData[]): ServiceData[] {
+  return services.map(applySeedServiceOverlay);
+}
+
 const seedTalentBySlug = new Map(seedTalents.map((talent) => [talent.slug, talent]));
 
 function applySeedTalentOverlay(talent: TalentData): TalentData {
@@ -187,7 +215,7 @@ export async function getServices(): Promise<ServiceData[]> {
   if (db) {
     try {
       const docs = await Service.find({ published: true }).sort({ sortOrder: 1 }).lean();
-      if (docs.length > 0) return toPlain(docs) as ServiceData[];
+      if (docs.length > 0) return applySeedServiceOverlays(toPlain(docs) as ServiceData[]);
     } catch (e) {
       console.error("Error fetching services:", e);
     }
@@ -200,7 +228,7 @@ export async function getServiceBySlug(slug: string): Promise<ServiceData | null
   if (db) {
     try {
       const doc = await Service.findOne({ slug, published: true }).lean();
-      if (doc) return toPlain(doc) as ServiceData;
+      if (doc) return applySeedServiceOverlay(toPlain(doc) as ServiceData);
     } catch (e) {
       console.error("Error fetching service:", e);
     }
