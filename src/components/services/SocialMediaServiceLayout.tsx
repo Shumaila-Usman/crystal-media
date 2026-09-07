@@ -133,27 +133,6 @@ export function SocialMediaServiceLayout() {
                 </div>
               </Reveal>
 
-              <Reveal delay={0.1}>
-                <div
-                  id="service-inquiry"
-                  className="scroll-mt-28 rounded-[24px] bg-ink-black p-6 sm:p-7 text-pearl-white shadow-[0_24px_80px_rgba(0,0,0,0.18)]"
-                >
-                  <h3 className="font-display text-xl font-bold sm:text-2xl">
-                    Talk to Crystal Media
-                  </h3>
-                  <p className="mt-2 text-sm leading-relaxed text-muted-text">
-                    Tell us your brand goals — we reply within 24 hours with a
-                    tailored plan.
-                  </p>
-                  <div className="mt-6">
-                    <CampaignInquiryForm
-                      variant="sidebar"
-                      defaultService="Social Media Marketing"
-                    />
-                  </div>
-                </div>
-              </Reveal>
-
               <Reveal delay={0.12}>
                 <div className="rounded-[24px] border border-ink-black/8 bg-white p-6">
                   <h3 className="font-display mb-4 text-lg font-bold">Explore</h3>
@@ -173,6 +152,27 @@ export function SocialMediaServiceLayout() {
               </Reveal>
             </aside>
           </div>
+        </div>
+      </section>
+
+      <section
+        id="service-inquiry"
+        className="scroll-mt-24 section-padding bg-ink-black text-pearl-white"
+      >
+        <div className="container-xl max-w-2xl">
+          <Reveal>
+            <h2 className="font-display mb-2 text-2xl font-bold sm:text-3xl">
+              Talk to Crystal Media
+            </h2>
+            <p className="mb-8 text-sm leading-relaxed text-muted-text sm:text-base">
+              Tell us your brand goals — we reply within 24 hours with a tailored
+              plan for social media marketing.
+            </p>
+            <CampaignInquiryForm
+              variant="sidebar"
+              defaultService="Social Media Marketing"
+            />
+          </Reveal>
         </div>
       </section>
     </>
