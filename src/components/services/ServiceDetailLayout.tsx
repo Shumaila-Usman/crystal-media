@@ -4,6 +4,7 @@ import { Reveal } from "@/components/motion/Reveal";
 import { CampaignInquiryForm } from "@/components/forms/CampaignInquiryForm";
 import { Button } from "@/components/shared/Button";
 import { locationServices } from "@/data/seed";
+import { SocialMediaServiceLayout } from "@/components/services/SocialMediaServiceLayout";
 import type { ServiceData } from "@/types";
 
 const SERVICE_FORM_VALUES: Record<string, string> = {
@@ -34,6 +35,10 @@ export function ServiceDetailLayout({
   service,
   allServices,
 }: ServiceDetailLayoutProps) {
+  if (service.slug === "social-media-marketing") {
+    return <SocialMediaServiceLayout />;
+  }
+
   const { lead, accent } = splitServiceTitle(service.title);
   const otherServices = allServices.filter((s) => s.slug !== service.slug);
   const defaultService = SERVICE_FORM_VALUES[service.slug] || service.title;

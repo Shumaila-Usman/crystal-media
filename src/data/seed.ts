@@ -636,28 +636,6 @@ export const seedTalents: TalentData[] = [
     published: true,
     sortOrder: 26,
   },
-  {
-    _id: "seed-27",
-    name: "Dananeer",
-    slug: "dananeer",
-    niche: "Entertainment & Lifestyle",
-    city: "Karachi",
-    bio: "Dananeer is a leading creator known for viral entertainment content and premium brand collaborations.",
-    specialties: ["Entertainment", "Lifestyle", "Fashion"],
-    image: "/talents/dananeer.jpg",
-    gallery: [],
-    platforms: {
-      instagram: "https://www.instagram.com/dananeer/",
-    },
-    metrics: {
-      instagram: { followers: 7300000, engagementRate: 5.8 },
-    },
-    totalFollowers: 7300000,
-    engagementRate: 5.8,
-    featured: true,
-    published: true,
-    sortOrder: 27,
-  },
 ];
 
 export const seedBrands: BrandData[] = [
@@ -1069,7 +1047,7 @@ export const seedServices: ServiceData[] = [
     title: "Social Media Strategy & Content",
     slug: "social-media-marketing",
     shortDescription:
-      "Social media strategy and content for Instagram, TikTok, YouTube, and Facebook — built to grow your audience and convert followers into customers.",
+      "Full-service social media marketing — content strategy, Instagram & TikTok campaigns, community growth, and paid amplification for brands in Pakistan.",
     description:
       "We plan, create, and manage your brand's social presence across every major platform. From content calendars and Reels to community engagement and monthly reporting — Crystal Media helps you show up consistently and grow with purpose.",
     icon: "chart",

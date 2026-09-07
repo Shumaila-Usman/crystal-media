@@ -63,6 +63,12 @@ function applySeedServiceOverlays(services: ServiceData[]): ServiceData[] {
 
 const seedTalentBySlug = new Map(seedTalents.map((talent) => [talent.slug, talent]));
 
+const hiddenTalentSlugs = new Set(["dananeer"]);
+
+function isVisibleTalent(talent: TalentData) {
+  return talent.published && !hiddenTalentSlugs.has(talent.slug);
+}
+
 function applySeedTalentOverlay(talent: TalentData): TalentData {
   const seed = seedTalentBySlug.get(talent.slug);
   if (!seed) return talent;
@@ -120,6 +126,7 @@ export async function getTalents(filters?: {
   }
 
   if (talents.length === 0) talents = [...seedTalents];
+  talents = talents.filter(isVisibleTalent);
   if (filters?.featured) talents = talents.filter((t) => t.featured);
   if (filters?.search) {
     const s = filters.search.toLowerCase();
@@ -164,16 +171,22 @@ export async function getTalents(filters?: {
 }
 
 export async function getTalentBySlug(slug: string): Promise<TalentData | null> {
+  if (hiddenTalentSlugs.has(slug)) return null;
+
   const db = await connectDB();
   if (db) {
     try {
       const doc = await Talent.findOne({ slug, published: true }).lean();
-      if (doc) return applySeedTalentOverlay(toPlain(doc) as TalentData);
+      if (doc) {
+        const talent = applySeedTalentOverlay(toPlain(doc) as TalentData);
+        return isVisibleTalent(talent) ? talent : null;
+      }
     } catch (e) {
       console.error("Error fetching talent:", e);
     }
   }
-  return seedTalents.find((t) => t.slug === slug) || null;
+  const seed = seedTalents.find((t) => t.slug === slug);
+  return seed && isVisibleTalent(seed) ? seed : null;
 }
 
 export async function resolveTalentQuery(
